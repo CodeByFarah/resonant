@@ -681,7 +681,9 @@ export async function refreshShell() {
 (async () => {
   const s = await (await fetch("/api/session")).json();
   if (s.auth_required && !s.authorized) return showLogin();
-  await store.loadSettings().catch(() => null);
+  const settings = await store.loadSettings().catch(() => null);
   renderSidebar();
   route();
+  // First run: show what this computer can handle, once.
+  if (settings && !settings.system_check_seen) import("./system.js").then((m) => m.showSystemCheck());
 })();

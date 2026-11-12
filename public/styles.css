@@ -376,6 +376,9 @@ input[type=range]:disabled { opacity: .4; }
 .seg.pills { background: none; padding: 0; gap: 4px; }
 .seg.pills button { height: 32px; padding: 0 12px; border-radius: var(--radius-btn); font-size: 14px; }
 .seg.pills button.active { background: var(--bg-muted); box-shadow: none; }
+.sys-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 10px 20px; margin: 4px 0 12px; }
+.sys-facts dt { font-size: 12px; color: var(--fg-muted); }
+.sys-facts dd { margin: 2px 0 0; font-size: 14px; font-weight: 500; }
 .credits { display: flex; flex-direction: column; margin-top: 8px; }
 .credit { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border); }
 .credit:first-child { border-top: 0; }

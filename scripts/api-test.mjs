@@ -23,6 +23,18 @@ const post = (p, body) => req(p, { method: "POST", headers: { "content-type": "a
 let ttsId, wav, transcriptId;
 
 await step("health", async () => { const h = await jsonReq("/api/health"); assert.equal(h.status, "ok"); assert.match(h.version, /^\d+\.\d+\.\d+/); });
+await step("system check: hardware facts and a verdict per feature", async () => {
+  const s = await jsonReq("/api/system");
+  assert.ok(s.cpu.threads > 0 && s.memory.total_gb > 0, "cpu and memory");
+  assert.ok(Array.isArray(s.gpus));
+  assert.doesNotMatch(s.cpu.model, /\((R|TM)\)/);
+  const ids = s.features.map((f) => f.id);
+  for (const id of ["voices", "transcribe", "qwen", "sfx"]) assert.ok(ids.includes(id), `verdict for ${id}`);
+  for (const f of s.features) assert.ok(["good", "slow", "limited", "missing"].includes(f.level) && f.detail.length > 10, f.id);
+  const sp = await jsonReq("/api/system/speed", { method: "POST" });
+  assert.ok(sp.rtf > 0 && sp.audio_seconds > 3, "speed test result");
+  assert.match((await jsonReq("/api/system")).features.find((f) => f.id === "voices").detail, /Measured on this computer/);
+});
 await step("third-party notices match the credits in Settings", async () => {
   const { spawnSync } = await import("node:child_process");
   const { fileURLToPath } = await import("node:url");

@@ -142,6 +142,7 @@ const SPEAKERS = [
 ];
 
 const localPython = () => fs.existsSync(PYTHON);
+export const pythonPath = () => PYTHON;
 const MODELS_DIR = process.env.RESONANT_MODELS_DIR || path.join(os.homedir(), ".resonant", "models");
 function pyPackage(name) {
   const venv = path.dirname(path.dirname(PYTHON));

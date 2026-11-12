@@ -12,6 +12,7 @@ import * as qwen from "./engines/qwen.mjs";
 import { registerStudio } from "./studio.mjs";
 import { registerDubbing } from "./dubbing.mjs";
 import { registerPronunciation, apply as pronounce } from "./pronunciation.mjs";
+import * as system from "./system.mjs";
 import { parseTags, spokenLength, toElevenLabs } from "./tags.mjs";
 import { parseOutputFormat, encode, encodeMp3, encodeWav, mp3Writer, decodeToMono, concat, resample, silence, pcm16ToFloat, httpError } from "./audio.mjs";
 
@@ -755,6 +756,7 @@ function publicSettings() {
     default_voice_id: db.getSetting("default_voice_id", "af_heart"),
     default_output_format: db.getSetting("default_output_format", "mp3_44100_128"),
     character_limit: db.getSetting("character_limit", null),
+    system_check_seen: Boolean(db.getSetting("system_check_seen", false)),
     local_cloning: qwen.canClone(),
     qwen: { available: qwen.available(), can_clone: qwen.canClone(), can_design: qwen.canDesign(), can_isolate: qwen.canIsolate(), can_transcribe: qwen.canTranscribe(), can_diarize: qwen.canDiarize(), can_convert: qwen.canConvert(), model: qwen.model().name, size: qwen.size(), sizes: qwen.sizeOptions(), remote: qwen.remoteInfo() },
     elevenlabs: { connected: Boolean(key), key_hint: key ? `…${key.slice(-4)}` : null, from_env: !db.getSetting("elevenlabs_api_key") && Boolean(key) },
@@ -764,6 +766,7 @@ route("GET", "/api/settings", async (req, res) => json(res, 200, publicSettings(
 route("PATCH", "/api/settings", async (req, res) => {
   const body = await readJson(req);
   if ("display_name" in body) db.setSetting("display_name", String(body.display_name || "").slice(0, 80));
+  if ("system_check_seen" in body) db.setSetting("system_check_seen", Boolean(body.system_check_seen));
   if ("qwen_remote_url" in body) await qwen.setRemote(body.qwen_remote_url, body.qwen_remote_token);
   if ("qwen_size" in body) qwen.setSize(String(body.qwen_size));
   if ("default_voice_id" in body) { await findVoice(body.default_voice_id); db.setSetting("default_voice_id", body.default_voice_id); }
@@ -798,6 +801,27 @@ route("GET", "/api/health", async (req, res) => json(res, 200, {
   elevenlabs: el.enabled(),
   stats: db.historyStats(),
 }));
+
+// What this computer can run (first-run check and Settings → This computer).
+const qwenFacts = () => ({ available: qwen.available(), canDesign: qwen.canDesign(), size: qwen.size(), remote: qwen.remoteInfo() });
+route("GET", "/api/system", async (req, res) => {
+  const hw = await system.hardware({ python: qwen.pythonPath(), dataDir: db.DATA_DIR });
+  const speed = db.getSetting("speed_test", null);
+  json(res, 200, { ...hw, speed, features: system.verdicts(hw, qwenFacts(), speed) });
+});
+// Times the built-in voices on a short paragraph. The model is loaded first, untimed, so the
+// result is the speed people get once Resonant is running.
+const SPEED_TEXT = "This is a short speed test. Resonant reads it aloud with a built-in voice and times how long that takes on this computer.";
+route("POST", "/api/system/speed", async (req, res) => {
+  await local.synthesizeAll("Warming up.", { voice_id: "af_heart" });
+  const t0 = performance.now();
+  const out = await local.synthesizeAll(SPEED_TEXT, { voice_id: "af_heart" });
+  const seconds = (performance.now() - t0) / 1000;
+  const audio_seconds = out.samples.length / out.rate;
+  const speed = { rtf: Math.round((audio_seconds / seconds) * 100) / 100, audio_seconds: Math.round(audio_seconds * 10) / 10, seconds: Math.round(seconds * 10) / 10, at: Date.now() };
+  db.setSetting("speed_test", speed);
+  json(res, 200, speed);
+});
 
 // Re-checks the GPU worker now (Settings → Providers → Check connection).
 route("POST", "/api/worker/check", async (req, res) => {

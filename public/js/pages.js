@@ -9,6 +9,7 @@ import { studioList, studioProject } from "./studio.js";
 import { dialoguePage, pronunciationPage } from "./dialogue.js";
 import { dubbingList, dubbingEditor } from "./dubbing.js";
 import { MODELS as CREDIT_MODELS, LIBRARIES as CREDIT_LIBRARIES, LICENSE_URLS } from "./credits.js";
+import { renderSystem } from "./system.js";
 
 // Title case, so multi-word labels read "New York", "South African".
 export const cap = (s) => (s ? s.replace(/(^|[\s(-])(\p{L})/gu, (m, sep, c) => sep + c.toUpperCase()) : "");
@@ -683,7 +684,7 @@ const settingsPage = {
     const base = location.origin;
     const rw = s.qwen.remote; // GPU worker, when one is set up
     el.innerHTML = String(html`<div class="page-inner"><h1 class="h1">Settings</h1>
-      <div class="settings-grid"><nav class="settings-nav"><a href="#profile" data-link>Profile</a><a href="#defaults" data-link>Defaults</a><a href="#usage" data-link>Usage</a><a href="#providers" data-link>Providers</a><a href="#appearance" data-link>Appearance</a><a href="#api" data-link>API</a><a href="#extension" data-link>Browser extension</a><a href="#data" data-link>Data</a><a href="#about" data-link>About</a></nav>
+      <div class="settings-grid"><nav class="settings-nav"><a href="#profile" data-link>Profile</a><a href="#defaults" data-link>Defaults</a><a href="#usage" data-link>Usage</a><a href="#providers" data-link>Providers</a><a href="#appearance" data-link>Appearance</a><a href="#api" data-link>API</a><a href="#extension" data-link>Browser extension</a><a href="#data" data-link>Data</a><a href="#computer" data-link>This computer</a><a href="#about" data-link>About</a></nav>
       <div>
         <section class="card settings-section" id="profile"><h2 class="h2">Profile</h2><form class="rows" data-form="profile">
           <div class="field"><label for="st-name">Display name</label><input class="input" id="st-name" name="display_name" value="${s.display_name}" maxlength="80" placeholder="Your name"></div>
@@ -746,6 +747,9 @@ const settingsPage = {
           <div class="row wrap mt"><a class="btn btn-sm" href="/api/extension.zip" download>${icon("download")} Download extension</a><span class="small subtle">Shortcuts: Alt+Shift+R reads the selection or the page, Alt+Shift+S stops.</span></div></section>
         <section class="card settings-section" id="data"><h2 class="h2">Data</h2><p class="muted small">All audio and transcripts are stored on this server in its data folder.</p>
           <button class="btn btn-danger" data-clear>${icon("trash")} Delete all history</button></section>
+        <section class="card settings-section" id="computer"><h2 class="h2">This computer</h2>
+          <p class="muted small">What each part of the studio can do on this machine.</p><div data-sys></div>
+          <button class="btn btn-sm mt" data-speed>${icon("refresh")} Run the speed test again</button></section>
         <section class="card settings-section" id="about"><h2 class="h2">About</h2>
           <p class="muted small">Resonant <span data-version></span> runs open models on this computer. Each one has its own licence, listed here with the credit it asks for.</p>
           <h3 class="h3 mt">Models</h3>
@@ -762,6 +766,13 @@ const settingsPage = {
           <p class="small subtle mt">The same list, with links to every licence and to the source code of the GPL and LGPL parts, is in THIRD_PARTY_NOTICES.md in Resonant's folder.</p></section>
       </div></div></div>`);
     api("/api/health").then((h) => { const v = $("[data-version]", el); if (v && h.version) v.textContent = h.version; }).catch(() => {});
+    renderSystem($("[data-sys]", el));
+    $("[data-speed]", el).onclick = async (e) => {
+      setLoading(e.currentTarget, true, "Timing…");
+      try { await api("/api/system/speed", { method: "POST" }); await renderSystem($("[data-sys]", el)); toast("Speed test done"); }
+      catch (err) { toastError(err); }
+      finally { setLoading(e.currentTarget, false); }
+    };
 
     const save = async (patch, msg = "Saved") => { try { await api("/api/settings", { method: "PATCH", json: patch }); toast(msg); await refreshShell(); return true; } catch (e) { toastError(e); return false; } };
     $$("form[data-form]", el).forEach((form) => form.onsubmit = async (e) => {
