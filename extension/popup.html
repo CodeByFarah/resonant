@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Resonant Reader</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/32.png" alt="" width="20" height="20">
+    <span class="brand">Resonant</span>
+    <span class="conn" data-conn title="Not checked yet"></span>
+  </header>
+
+  <main>
+    <div class="status" data-status hidden></div>
+    <button class="btn primary" data-read>Read this page</button>
+    <div class="row" data-controls hidden>
+      <button class="btn" data-pause>Pause</button>
+      <button class="btn" data-stop>Stop</button>
+    </div>
+    <p class="hint">Select text first to read only that part, or right-click it.</p>
+
+    <label class="field">Voice
+      <select data-voice disabled><option>Connecting…</option></select>
+      <span class="hint" data-voice-hint hidden>Qwen3 voices are expressive but slow without a GPU: often a minute or more before the first sound. Kokoro voices (like Heart) start in a few seconds.</span>
+    </label>
+    <label class="field" data-speed-row>
+      <span class="between">Speed <span data-speed-val>1.00×</span></span>
+      <input type="range" min="0.7" max="1.3" step="0.05" value="1" data-speed>
+    </label>
+  </main>
+
+  <details data-settings>
+    <summary>Server</summary>
+    <label class="field">Resonant address
+      <input type="url" data-server placeholder="http://localhost:3000" spellcheck="false">
+    </label>
+    <label class="field">API key <span class="muted">(only if the server requires one)</span>
+      <input type="password" data-key autocomplete="off" spellcheck="false">
+    </label>
+    <button class="btn" data-save>Save and connect</button>
+  </details>
+
+  <footer><kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>R</kbd> reads, <kbd>Alt</kbd>+<kbd>Shift</kbd>+<kbd>S</kbd> stops. Readings are saved in your Resonant history.</footer>
+  <script type="module" src="popup.js"></script>
+</body>
+</html>

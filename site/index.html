@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="only light">
+  <title>Resonant: a voice studio on your own computer</title>
+  <meta name="description" content="Free, private text to speech, voice cloning, dialogue, dubbing and transcription that run on your own computer. No subscription and no character limits.">
+  <meta property="og:title" content="Resonant: a voice studio on your own computer">
+  <meta property="og:description" content="Text to speech, voice cloning, dialogue and dubbing that run on your machine. Free, private, no character limits.">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,400..800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <header class="top">
+    <div class="wrap top-in">
+      <a class="brand" href="#" aria-label="Resonant home">
+        <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" class="brand-tile"/><g class="brand-bars"><rect x="7" y="13" width="3" height="6" rx="1.5"/><rect x="12" y="9" width="3" height="14" rx="1.5"/><rect x="17" y="6" width="3" height="20" rx="1.5"/><rect x="22" y="11" width="3" height="10" rx="1.5"/></g></svg>
+        Resonant
+      </a>
+      <nav aria-label="Sections">
+        <a href="#listen">Listen</a>
+        <a href="#features">Features</a>
+        <a href="#hardware">Requirements</a>
+        <a class="btn btn-small" href="#install">Install</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+    <section class="hero wrap" aria-labelledby="hero-title">
+      <h1 id="hero-title">A voice studio that lives on your computer.</h1>
+      <p class="lede">Turn text into natural speech, clone voices, make podcasts and dub videos. Resonant runs the models on your own machine, so it's free, it's private, and there's no limit on how much you make.</p>
+
+      <div class="reader" data-reader>
+        <p class="reader-text" data-words></p>
+        <div class="reader-bar">
+          <button class="play" type="button" data-play aria-label="Play">
+            <span class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+          </button>
+          <div class="voices" role="radiogroup" aria-label="Voice" data-voices></div>
+        </div>
+        <p class="reader-note" data-voice-note>Recorded on an ordinary laptop with no graphics card. Click any word to jump to it.</p>
+      </div>
+    </section>
+
+    <section class="band" id="listen" aria-labelledby="listen-title">
+      <div class="wrap">
+        <h2 id="listen-title">Write a scene. Hear it performed.</h2>
+        <div class="split">
+          <div>
+            <p>Dialogue mode gives each line its own voice and puts natural gaps between speakers. Use it for podcasts, interviews, audio dramas and game scenes.</p>
+            <p>Add a pause or an emotion right in the text with tags like <code>[pause 2s]</code>, and the voice follows them instead of reading them out.</p>
+          </div>
+          <div class="stack">
+            <figure class="script" data-dialogue>
+              <figcaption>
+                <button class="play play-small" type="button" data-play aria-label="Play the dialogue"><span class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+                Dialogue with Siobhán and George
+              </figcaption>
+              <div class="script-lines" data-words></div>
+            </figure>
+            <figure class="script" data-tagged>
+              <figcaption>
+                <button class="play play-small" type="button" data-play aria-label="Play the pause example"><span class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i></span></button>
+                A pause written into the text
+              </figcaption>
+              <p class="script-line" data-words></p>
+            </figure>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap features" id="features" aria-labelledby="features-title">
+      <h2 id="features-title">Everything in one studio</h2>
+      <dl class="feature-list">
+        <div><dt>Text to speech</dt><dd>28 English voices built in, plus 9 expressive voices in 10 languages that take directions like “whisper” or “sound excited”.</dd></div>
+        <div><dt>Voice cloning</dt><dd>Copy a voice from a 10-second recording, or describe a new one in words, accent and mood included, and Resonant designs it.</dd></div>
+        <div><dt>Dialogue</dt><dd>Write a script with several speakers and get one finished audio file.</dd></div>
+        <div><dt>Dubbing</dt><dd>Transcribe a video, translate it, re-voice it and export an MP4 you can post.</dd></div>
+        <div><dt>Audiobooks</dt><dd>Import an EPUB, a PDF or plain text, and narrate it chapter by chapter into one MP3.</dd></div>
+        <div><dt>Speech to text</dt><dd>Transcripts with a timestamp for every word, speaker labels and subtitle export.</dd></div>
+        <div><dt>Read any web page</dt><dd>A Chrome and Edge extension reads articles or selected text aloud with your voices.</dd></div>
+        <div><dt>Voice changer</dt><dd>Re-voice a recording in another voice while keeping its timing and emotion.</dd></div>
+      </dl>
+    </section>
+
+    <section class="band" aria-labelledby="compare-title">
+      <div class="wrap">
+        <h2 id="compare-title">How it compares with cloud voice services</h2>
+        <div class="table-scroll">
+          <table class="compare">
+            <thead><tr><td></td><th scope="col">Resonant</th><th scope="col">A typical cloud service</th></tr></thead>
+            <tbody>
+              <tr><th scope="row">Price</th><td>Free</td><td>A monthly plan, paid by the character</td></tr>
+              <tr><th scope="row">How much you can make</th><td>No limit</td><td>Capped by your plan</td></tr>
+              <tr><th scope="row">Where your text and recordings go</th><td>Nowhere. They stay on your computer</td><td>To the company's servers</td></tr>
+              <tr><th scope="row">Works without internet</th><td>Yes, once the models are downloaded</td><td>No</td></tr>
+              <tr><th scope="row">Speed on a laptop</th><td>Fast for the built-in voices, slow for the expressive ones without a graphics card</td><td>Fast for everything</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="wrap" id="hardware" aria-labelledby="hardware-title">
+      <h2 id="hardware-title">What your computer can run</h2>
+      <p class="section-lede">Resonant uses what your machine has. The more powerful it is, the more of the studio runs at full speed.</p>
+      <div class="tiers">
+        <div class="tier">
+          <h3>Any recent laptop</h3>
+          <p class="tier-spec">8 GB of memory, no graphics card</p>
+          <p>The 28 built-in American and British voices start speaking in about a second, and transcription runs faster than real time. Heart and George on this page are two of them.</p>
+        </div>
+        <div class="tier">
+          <h3>16 GB of memory</h3>
+          <p class="tier-spec">Still no graphics card</p>
+          <p>Adds designed voices with any accent, cloning, other languages and dubbing. The accented voices on this page were made this way. Each of those took about a minute to make, so they suit clips you save rather than live reading.</p>
+        </div>
+        <div class="tier">
+          <h3>An NVIDIA graphics card</h3>
+          <p class="tier-spec">6 GB of video memory or more</p>
+          <p>Everything runs 20 to 50 times faster. Expressive voices, cloning and dubbing feel as quick as the built-in voices.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="band" aria-labelledby="api-title">
+      <div class="wrap split">
+        <div>
+          <h2 id="api-title">Already using the ElevenLabs API?</h2>
+          <p>Resonant speaks the same API. Point your app, script or plugin at your own computer instead, and it keeps working without per-character fees.</p>
+        </div>
+        <pre class="code" aria-label="Example request"><code><span class="c"># Same request, different address</span>
+curl http://localhost:3000/v1/text-to-speech/af_heart \
+  -H "Content-Type: application/json" \
+  -d '{"text": "Hello from my own computer."}' \
+  -o hello.mp3</code></pre>
+      </div>
+    </section>
+
+    <section class="wrap install" id="install" aria-labelledby="install-title">
+      <h2 id="install-title">Install Resonant</h2>
+      <p class="section-lede">One-click installers for Windows, Mac and Linux are on the way. Until then, it takes four steps in a terminal.</p>
+      <ol class="steps">
+        <li><h3>Install Node.js</h3><p>Version 22.5 or later, from <a href="https://nodejs.org/">nodejs.org</a>.</p></li>
+        <li><h3>Download Resonant</h3><p><a href="#" data-repo hidden>Get the code</a><span data-no-repo>Get the code</span> and open its folder in a terminal.</p></li>
+        <li><h3>Install and start it</h3><pre class="code code-inline"><code>npm install
+npm start</code></pre></li>
+        <li><h3>Open the studio</h3><p>Go to <a href="http://127.0.0.1:3000">127.0.0.1:3000</a> in your browser. Each model downloads the first time you use it.</p></li>
+      </ol>
+    </section>
+
+    <section class="band" aria-labelledby="ethics-title">
+      <div class="wrap split">
+        <h2 id="ethics-title">Clone only voices you have permission to use</h2>
+        <p>Voice cloning is for your own voice, actors who have agreed to it, and characters you create. Using someone's voice without their consent can hurt them and break the law where you live. Resonant runs on your computer, so using it responsibly is up to you.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="wrap foot">
+    <p><strong>Built on open models:</strong> Kokoro (Apache 2.0), Qwen3-TTS (Apache 2.0), Whisper (MIT), Demucs (MIT), M2M100 (MIT), Opus-MT translation models by Helsinki-NLP, University of Helsinki (CC BY 4.0), and MusicGen for sound effects (CC BY-NC 4.0, non-commercial use only).</p>
+    <p>Resonant is an independent project and isn't affiliated with ElevenLabs. ElevenLabs is a trademark of its owner, mentioned only to describe API compatibility.</p>
+  </footer>
+
+  <script src="samples.js"></script>
+  <script src="main.js"></script>
+</body>
+</html>

@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Resonant Reader",
+  "version": "1.0.1",
+  "description": "Reads web pages and selected text aloud with the voices on your own Resonant server.",
+  "icons": { "16": "icons/16.png", "32": "icons/32.png", "48": "icons/48.png", "128": "icons/128.png" },
+  "action": { "default_popup": "popup.html", "default_title": "Read with Resonant", "default_icon": { "16": "icons/16.png", "32": "icons/32.png" } },
+  "background": { "service_worker": "background.js", "type": "module" },
+  "permissions": ["activeTab", "scripting", "contextMenus", "storage", "offscreen"],
+  "host_permissions": ["http://localhost/*", "http://127.0.0.1/*"],
+  "optional_host_permissions": ["http://*/*", "https://*/*"],
+  "commands": {
+    "read-page": { "suggested_key": { "default": "Alt+Shift+R" }, "description": "Read the selection, or the whole page" },
+    "stop": { "suggested_key": { "default": "Alt+Shift+S" }, "description": "Stop reading" }
+  }
+}

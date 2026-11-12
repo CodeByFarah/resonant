@@ -1,0 +1,5 @@
+node_modules/
+data/
+# Side-by-side sound effect tests (generated audio, not part of the app)
+sfx-compare/
+*.log

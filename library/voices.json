@@ -1,0 +1,1384 @@
+[
+ {
+  "id": "marcus",
+  "name": "Marcus",
+  "description": "Deep, warm audiobook narrator",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "american",
+   "language": "en",
+   "use_case": "narration",
+   "descriptive": "deep"
+  },
+  "file": "marcus.wav",
+  "ref_text": "The old lighthouse had stood on the cliff for more than a century. Every night its beam swept across the dark water, guiding the sailors safely home through the storm.",
+  "qa": {
+   "duration": 10.16,
+   "score": 0.93,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "claire",
+  "name": "Claire",
+  "description": "Polished evening news anchor",
+  "labels": {
+   "gender": "female",
+   "age": "middle_aged",
+   "accent": "american",
+   "language": "en",
+   "use_case": "news",
+   "descriptive": "professional"
+  },
+  "file": "claire.wav",
+  "ref_text": "Good evening. Our top story tonight: city officials have approved a new plan to expand public transport, with three new rail lines expected to open within five years.",
+  "qa": {
+   "duration": 12.08,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "tyler",
+  "name": "Tyler",
+  "description": "High-energy creator voice",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "american",
+   "language": "en",
+   "use_case": "social",
+   "descriptive": "energetic"
+  },
+  "file": "tyler.wav",
+  "ref_text": "What's up, everyone! Today I'm testing five gadgets you've never heard of, and trust me, number three completely blew my mind. Let's get into it!",
+  "qa": {
+   "duration": 8.88,
+   "score": 0.96,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "harper",
+  "name": "Harper",
+  "description": "Bright, friendly and casual",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "american",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "friendly"
+  },
+  "file": "harper.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 9.12,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "walter",
+  "name": "Walter",
+  "description": "Gravelly, wise grandfather",
+  "labels": {
+   "gender": "male",
+   "age": "old",
+   "accent": "american",
+   "language": "en",
+   "use_case": "storytelling",
+   "descriptive": "gravelly"
+  },
+  "file": "walter.wav",
+  "ref_text": "Gather round, little ones. Long ago, in a village by the sea, there lived a clever fox who could talk to the stars, and every night he asked them for a story.",
+  "qa": {
+   "duration": 13.28,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "june",
+  "name": "June",
+  "description": "Gentle grandmother for bedtime stories",
+  "labels": {
+   "gender": "female",
+   "age": "old",
+   "accent": "american",
+   "language": "en",
+   "use_case": "storytelling",
+   "descriptive": "gentle"
+  },
+  "file": "june.wav",
+  "ref_text": "Gather round, little ones. Long ago, in a village by the sea, there lived a clever fox who could talk to the stars, and every night he asked them for a story.",
+  "qa": {
+   "duration": 13.28,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "devon",
+  "name": "Devon",
+  "description": "Laid-back podcast host",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "american",
+   "language": "en",
+   "use_case": "podcast",
+   "descriptive": "relaxed"
+  },
+  "file": "devon.wav",
+  "ref_text": "Welcome back to the show. So this week we're talking about something that honestly changed the way I think about work, and I can't wait to get into it with you.",
+  "qa": {
+   "duration": 9.68,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "simone",
+  "name": "Simone",
+  "description": "Smooth late-night radio host",
+  "labels": {
+   "gender": "female",
+   "age": "middle_aged",
+   "accent": "american",
+   "language": "en",
+   "use_case": "narration",
+   "descriptive": "smooth"
+  },
+  "file": "simone.wav",
+  "ref_text": "The old lighthouse had stood on the cliff for more than a century. Every night its beam swept across the dark water, guiding the sailors safely home through the storm.",
+  "qa": {
+   "duration": 13.44,
+   "score": 0.97,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "grant",
+  "name": "Grant",
+  "description": "Epic movie-trailer voice",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "american",
+   "language": "en",
+   "use_case": "advertisement",
+   "descriptive": "epic"
+  },
+  "file": "grant.wav",
+  "ref_text": "This summer, one hero will rise. No warning. No second chances. Prepare for the adventure of a lifetime, coming soon, only in theaters.",
+  "qa": {
+   "duration": 11.76,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "nora",
+  "name": "Nora",
+  "description": "Soft, calm meditation guide",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "american",
+   "language": "en",
+   "use_case": "meditation",
+   "descriptive": "calm"
+  },
+  "file": "nora.wav",
+  "ref_text": "Take a slow, deep breath in, and gently let it go. Feel your shoulders soften, and let each thought drift away like a cloud across a quiet sky.",
+  "qa": {
+   "duration": 14.8,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "jackson",
+  "name": "Jackson",
+  "description": "Friendly Southern drawl",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "southern american",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "warm"
+  },
+  "file": "jackson.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 8.96,
+   "score": 0.96,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "lucy",
+  "name": "Lucy",
+  "description": "Playful young girl",
+  "labels": {
+   "gender": "female",
+   "age": "child",
+   "accent": "american",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "playful"
+  },
+  "file": "lucy.wav",
+  "ref_text": "Mom, guess what! We found a frog in the garden, and it's so tiny and green, and I named him Mister Hops. Can we keep him? Please, please, please?",
+  "qa": {
+   "duration": 11.28,
+   "score": 0.86,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "benny",
+  "name": "Benny",
+  "description": "Curious young boy",
+  "labels": {
+   "gender": "male",
+   "age": "child",
+   "accent": "american",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "curious"
+  },
+  "file": "benny.wav",
+  "ref_text": "Whoa, did you know that octopuses have three hearts? Three! And their blood is blue! I'm going to be a marine biologist when I grow up, for sure.",
+  "qa": {
+   "duration": 9.76,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "vinnie",
+  "name": "Vinnie",
+  "description": "Fast-talking New Yorker",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "new york",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "fast"
+  },
+  "file": "vinnie.wav",
+  "ref_text": "Listen, I'm telling ya, you want the best slice in the city, you go to my cousin's place on Fifth. Forget about it. Nobody makes a crust like that.",
+  "qa": {
+   "duration": 8.32,
+   "score": 0.97,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "ava",
+  "name": "Ava",
+  "description": "Clear customer-support agent",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "american",
+   "language": "en",
+   "use_case": "support",
+   "descriptive": "professional"
+  },
+  "file": "ava.wav",
+  "ref_text": "Thanks for calling. I'm happy to help you with your account today. Could you please tell me the email address you used when you signed up?",
+  "qa": {
+   "duration": 7.44,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "raymond",
+  "name": "Raymond",
+  "description": "Measured documentary narrator",
+  "labels": {
+   "gender": "male",
+   "age": "old",
+   "accent": "american",
+   "language": "en",
+   "use_case": "documentary",
+   "descriptive": "measured"
+  },
+  "file": "raymond.wav",
+  "ref_text": "Deep in the rainforest, the jaguar moves without a sound. She has not eaten in three days, and tonight, the river will decide whether she survives.",
+  "qa": {
+   "duration": 13.28,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "edward",
+  "name": "Edward",
+  "description": "Refined British audiobook narrator",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "british",
+   "language": "en",
+   "use_case": "narration",
+   "descriptive": "refined"
+  },
+  "file": "edward.wav",
+  "ref_text": "The old lighthouse had stood on the cliff for more than a century. Every night its beam swept across the dark water, guiding the sailors safely home through the storm.",
+  "qa": {
+   "duration": 10.32,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "imogen",
+  "name": "Imogen",
+  "description": "Elegant, poised English voice",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "british",
+   "language": "en",
+   "use_case": "narration",
+   "descriptive": "elegant"
+  },
+  "file": "imogen.wav",
+  "ref_text": "The old lighthouse had stood on the cliff for more than a century. Every night its beam swept across the dark water, guiding the sailors safely home through the storm.",
+  "qa": {
+   "duration": 10.4,
+   "score": 0.93,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "alfie",
+  "name": "Alfie",
+  "description": "Cheeky Londoner",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "london",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "cheeky"
+  },
+  "file": "alfie.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 8.24,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "margaret",
+  "name": "Margaret",
+  "description": "Warm English storyteller",
+  "labels": {
+   "gender": "female",
+   "age": "old",
+   "accent": "british",
+   "language": "en",
+   "use_case": "storytelling",
+   "descriptive": "warm"
+  },
+  "file": "margaret.wav",
+  "ref_text": "Gather round, little ones. Long ago, in a village by the sea, there lived a clever fox who could talk to the stars, and every night he asked them for a story.",
+  "qa": {
+   "duration": 15.76,
+   "score": 0.97,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "oliver",
+  "name": "Oliver",
+  "description": "Calm, clear British explainer",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "british",
+   "language": "en",
+   "use_case": "education",
+   "descriptive": "calm"
+  },
+  "file": "oliver.wav",
+  "ref_text": "Today we're going to learn how plants turn sunlight into energy. It's called photosynthesis, and it's one of the most important processes on our planet.",
+  "qa": {
+   "duration": 8.4,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "fiona",
+  "name": "Fiona",
+  "description": "Warm Scottish voice",
+  "labels": {
+   "gender": "female",
+   "age": "middle_aged",
+   "accent": "scottish",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "warm"
+  },
+  "file": "fiona.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 9.36,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "ewan",
+  "name": "Ewan",
+  "description": "Lively Scottish lad",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "scottish",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "lively"
+  },
+  "file": "ewan.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 9.52,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "siobhan",
+  "name": "Siobhan",
+  "description": "Cheerful Irish lilt",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "irish",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "cheerful"
+  },
+  "file": "siobhan.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 10.08,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "declan",
+  "name": "Declan",
+  "description": "Irish pub storyteller",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "irish",
+   "language": "en",
+   "use_case": "storytelling",
+   "descriptive": "warm"
+  },
+  "file": "declan.wav",
+  "ref_text": "Gather round, little ones. Long ago, in a village by the sea, there lived a clever fox who could talk to the stars, and every night he asked them for a story.",
+  "qa": {
+   "duration": 12.24,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "rhys",
+  "name": "Rhys",
+  "description": "Melodic Welsh narrator",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "welsh",
+   "language": "en",
+   "use_case": "narration",
+   "descriptive": "melodic"
+  },
+  "file": "rhys.wav",
+  "ref_text": "The old lighthouse had stood on the cliff for more than a century. Every night its beam swept across the dark water, guiding the sailors safely home through the storm.",
+  "qa": {
+   "duration": 10.4,
+   "score": 0.97,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "mia",
+  "name": "Mia",
+  "description": "Upbeat Australian",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "australian",
+   "language": "en",
+   "use_case": "social",
+   "descriptive": "upbeat"
+  },
+  "file": "mia.wav",
+  "ref_text": "What's up, everyone! Today I'm testing five gadgets you've never heard of, and trust me, number three completely blew my mind. Let's get into it!",
+  "qa": {
+   "duration": 8.8,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "hugh",
+  "name": "Hugh",
+  "description": "Relaxed Australian narrator",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "australian",
+   "language": "en",
+   "use_case": "documentary",
+   "descriptive": "relaxed"
+  },
+  "file": "hugh.wav",
+  "ref_text": "Deep in the rainforest, the jaguar moves without a sound. She has not eaten in three days, and tonight, the river will decide whether she survives.",
+  "qa": {
+   "duration": 9.6,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "kiri",
+  "name": "Kiri",
+  "description": "Gentle New Zealand voice",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "new zealand",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "gentle"
+  },
+  "file": "kiri.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 10.56,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "arjun",
+  "name": "Arjun",
+  "description": "Clear Indian-English tech explainer",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "indian",
+   "language": "en",
+   "use_case": "education",
+   "descriptive": "clear"
+  },
+  "file": "arjun.wav",
+  "ref_text": "Today we're going to learn how plants turn sunlight into energy. It's called photosynthesis, and it's one of the most important processes on our planet.",
+  "qa": {
+   "duration": 9.2,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "ananya",
+  "name": "Ananya",
+  "description": "Warm Indian-English teacher",
+  "labels": {
+   "gender": "female",
+   "age": "middle_aged",
+   "accent": "indian",
+   "language": "en",
+   "use_case": "education",
+   "descriptive": "warm"
+  },
+  "file": "ananya.wav",
+  "ref_text": "Today we're going to learn how plants turn sunlight into energy. It's called photosynthesis, and it's one of the most important processes on our planet.",
+  "qa": {
+   "duration": 10.64,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "chidi",
+  "name": "Chidi",
+  "description": "Rich Nigerian-English voice",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "nigerian",
+   "language": "en",
+   "use_case": "narration",
+   "descriptive": "authoritative"
+  },
+  "file": "chidi.wav",
+  "ref_text": "The old lighthouse had stood on the cliff for more than a century. Every night its beam swept across the dark water, guiding the sailors safely home through the storm.",
+  "qa": {
+   "duration": 10.16,
+   "score": 0.97,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "amara",
+  "name": "Amara",
+  "description": "Vibrant Nigerian-English voice",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "nigerian",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "vibrant"
+  },
+  "file": "amara.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 9.92,
+   "score": 0.96,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "thabo",
+  "name": "Thabo",
+  "description": "Friendly South African",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "south african",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "friendly"
+  },
+  "file": "thabo.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 9.2,
+   "score": 0.96,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "yasmin",
+  "name": "Yasmin",
+  "description": "Soft Middle-Eastern accent",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "middle eastern",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "soft"
+  },
+  "file": "yasmin.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 9.76,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "mateo",
+  "name": "Mateo",
+  "description": "Warm Latino-English voice",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "latino",
+   "language": "en",
+   "use_case": "conversational",
+   "descriptive": "warm"
+  },
+  "file": "mateo.wav",
+  "ref_text": "Oh, hey! I was just thinking about you. So, how was the trip? I want to hear everything, especially the part where you almost missed the train.",
+  "qa": {
+   "duration": 8.8,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "daniela",
+  "name": "Daniela",
+  "description": "Witty podcast co-host",
+  "labels": {
+   "gender": "female",
+   "age": "middle_aged",
+   "accent": "american",
+   "language": "en",
+   "use_case": "podcast",
+   "descriptive": "witty"
+  },
+  "file": "daniela.wav",
+  "ref_text": "Welcome back to the show. So this week we're talking about something that honestly changed the way I think about work, and I can't wait to get into it with you.",
+  "qa": {
+   "duration": 9.36,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "theo",
+  "name": "Theo",
+  "description": "Nerdy, enthusiastic explainer",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "american",
+   "language": "en",
+   "use_case": "education",
+   "descriptive": "nerdy"
+  },
+  "file": "theo.wav",
+  "ref_text": "Today we're going to learn how plants turn sunlight into energy. It's called photosynthesis, and it's one of the most important processes on our planet.",
+  "qa": {
+   "duration": 7.84,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "grimsby",
+  "name": "Grimsby",
+  "description": "Sinister villain",
+  "labels": {
+   "gender": "male",
+   "age": "old",
+   "accent": "british",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "sinister"
+  },
+  "file": "grimsby.wav",
+  "ref_text": "So, you finally found your way into my tower. How delightful. Tell me, little hero, did you really believe the door was left open by accident?",
+  "qa": {
+   "duration": 11.6,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "rourke",
+  "name": "Captain Rourke",
+  "description": "Gruff pirate captain",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "pirate",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "gruff"
+  },
+  "file": "rourke.wav",
+  "ref_text": "Hoist the sails, ye lazy dogs! There be treasure past that storm, and I'll not lose it to a little rain and a few angry waves!",
+  "qa": {
+   "duration": 8.4,
+   "score": 0.92,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "pip",
+  "name": "Pip",
+  "description": "Whimsical fairy",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "fantasy",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "whimsical"
+  },
+  "file": "pip.wav",
+  "ref_text": "Oh! Oh! You can see me? Nobody ever sees me! Quick, follow me, I know a secret path through the mushroom forest, but you must promise not to tell!",
+  "qa": {
+   "duration": 10.64,
+   "score": 0.97,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "brutus",
+  "name": "Brutus",
+  "description": "Booming giant warrior",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "fantasy",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "booming"
+  },
+  "file": "brutus.wav",
+  "ref_text": "You dare challenge Brutus? I have crushed mountains with these hands. Turn back now, little one, before I lose my patience.",
+  "qa": {
+   "duration": 10.8,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "velvet",
+  "name": "Velvet",
+  "description": "Soft ASMR whisper",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "american",
+   "language": "en",
+   "use_case": "meditation",
+   "descriptive": "whispering"
+  },
+  "file": "velvet.wav",
+  "ref_text": "Hi... just get comfortable for me. Close your eyes, and listen to the rain outside. There's nothing you need to do right now. Just rest.",
+  "qa": {
+   "duration": 15.36,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "cole",
+  "name": "Sergeant Cole",
+  "description": "Commanding drill sergeant",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "american",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "commanding"
+  },
+  "file": "cole.wav",
+  "ref_text": "On your feet, recruits! I want fifty push-ups, and I want them now! You think the enemy is going to wait for you to finish your coffee?",
+  "qa": {
+   "duration": 8.16,
+   "score": 0.96,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "oracle",
+  "name": "The Oracle",
+  "description": "Mysterious ancient oracle",
+  "labels": {
+   "gender": "female",
+   "age": "old",
+   "accent": "fantasy",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "mysterious"
+  },
+  "file": "oracle.wav",
+  "ref_text": "Three moons will rise before the crown falls. One who is lost shall be found, and one who is found shall be lost forever. Listen well, traveler.",
+  "qa": {
+   "duration": 12.88,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "sparky",
+  "name": "Sparky",
+  "description": "Zany cartoon sidekick",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "cartoon",
+   "language": "en",
+   "use_case": "characters",
+   "descriptive": "zany"
+  },
+  "file": "sparky.wav",
+  "ref_text": "Ooh, ooh, boss! I pressed the big red button! Was I not supposed to press the big red button? Why is everything blinking? Boss? Boss!",
+  "qa": {
+   "duration": 12.48,
+   "score": 0.8,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "lucia",
+  "name": "Lucía",
+  "description": "Warm Castilian Spanish",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "spanish",
+   "language": "es",
+   "use_case": "conversational",
+   "descriptive": "warm",
+   "native_language": "spanish"
+  },
+  "file": "lucia.wav",
+  "ref_text": "Hola, ¿qué tal? Hoy quiero contarte una historia sobre un pequeño pueblo junto al mar, donde cada mañana el sol pintaba las casas de color dorado.",
+  "qa": {
+   "duration": 9.6,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "diego",
+  "name": "Diego",
+  "description": "Deep Mexican Spanish narrator",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "mexican",
+   "language": "es",
+   "use_case": "narration",
+   "descriptive": "deep",
+   "native_language": "spanish"
+  },
+  "file": "diego.wav",
+  "ref_text": "Hola, ¿qué tal? Hoy quiero contarte una historia sobre un pequeño pueblo junto al mar, donde cada mañana el sol pintaba las casas de color dorado.",
+  "qa": {
+   "duration": 9.28,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "elena",
+  "name": "Elena",
+  "description": "Latin American news anchor",
+  "labels": {
+   "gender": "female",
+   "age": "middle_aged",
+   "accent": "latin american",
+   "language": "es",
+   "use_case": "news",
+   "descriptive": "professional",
+   "native_language": "spanish"
+  },
+  "file": "elena.wav",
+  "ref_text": "Hola, ¿qué tal? Hoy quiero contarte una historia sobre un pequeño pueblo junto al mar, donde cada mañana el sol pintaba las casas de color dorado.",
+  "qa": {
+   "duration": 9.76,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "camille",
+  "name": "Camille",
+  "description": "Elegant Parisian",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "parisian",
+   "language": "fr",
+   "use_case": "conversational",
+   "descriptive": "elegant",
+   "native_language": "french"
+  },
+  "file": "camille.wav",
+  "ref_text": "Bonjour à tous. Aujourd'hui, je vais vous raconter l'histoire d'un petit village au bord de la mer, où chaque matin le soleil dorait les toits des maisons.",
+  "qa": {
+   "duration": 10.72,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "henri",
+  "name": "Henri",
+  "description": "Rich French storyteller",
+  "labels": {
+   "gender": "male",
+   "age": "old",
+   "accent": "french",
+   "language": "fr",
+   "use_case": "narration",
+   "descriptive": "rich",
+   "native_language": "french"
+  },
+  "file": "henri.wav",
+  "ref_text": "Bonjour à tous. Aujourd'hui, je vais vous raconter l'histoire d'un petit village au bord de la mer, où chaque matin le soleil dorait les toits des maisons.",
+  "qa": {
+   "duration": 10.96,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "julien",
+  "name": "Julien",
+  "description": "Casual young Frenchman",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "french",
+   "language": "fr",
+   "use_case": "social",
+   "descriptive": "casual",
+   "native_language": "french"
+  },
+  "file": "julien.wav",
+  "ref_text": "Bonjour à tous. Aujourd'hui, je vais vous raconter l'histoire d'un petit village au bord de la mer, où chaque matin le soleil dorait les toits des maisons.",
+  "qa": {
+   "duration": 7.68,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "lena",
+  "name": "Lena",
+  "description": "Friendly German voice",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "german",
+   "language": "de",
+   "use_case": "conversational",
+   "descriptive": "friendly",
+   "native_language": "german"
+  },
+  "file": "lena.wav",
+  "ref_text": "Guten Tag und herzlich willkommen. Heute erzähle ich Ihnen die Geschichte eines kleinen Dorfes am Meer, in dem jeden Morgen die Sonne die Dächer golden färbte.",
+  "qa": {
+   "duration": 9.92,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "klaus",
+  "name": "Klaus",
+  "description": "Authoritative German anchor",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "german",
+   "language": "de",
+   "use_case": "news",
+   "descriptive": "authoritative",
+   "native_language": "german"
+  },
+  "file": "klaus.wav",
+  "ref_text": "Guten Tag und herzlich willkommen. Heute erzähle ich Ihnen die Geschichte eines kleinen Dorfes am Meer, in dem jeden Morgen die Sonne die Dächer golden färbte.",
+  "qa": {
+   "duration": 12.24,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "giulia",
+  "name": "Giulia",
+  "description": "Expressive Italian",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "italian",
+   "language": "it",
+   "use_case": "conversational",
+   "descriptive": "expressive",
+   "native_language": "italian"
+  },
+  "file": "giulia.wav",
+  "ref_text": "Ciao a tutti! Oggi vi racconto la storia di un piccolo paese sul mare, dove ogni mattina il sole colorava d'oro i tetti delle case.",
+  "qa": {
+   "duration": 8.64,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "marco",
+  "name": "Marco",
+  "description": "Warm Italian narrator",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "italian",
+   "language": "it",
+   "use_case": "narration",
+   "descriptive": "warm",
+   "native_language": "italian"
+  },
+  "file": "marco.wav",
+  "ref_text": "Ciao a tutti! Oggi vi racconto la storia di un piccolo paese sul mare, dove ogni mattina il sole colorava d'oro i tetti delle case.",
+  "qa": {
+   "duration": 9.28,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "beatriz",
+  "name": "Beatriz",
+  "description": "Upbeat Brazilian",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "brazilian",
+   "language": "pt",
+   "use_case": "social",
+   "descriptive": "upbeat",
+   "native_language": "portuguese"
+  },
+  "file": "beatriz.wav",
+  "ref_text": "Olá, tudo bem? Hoje eu quero contar a história de uma pequena vila à beira-mar, onde todas as manhãs o sol pintava os telhados de dourado.",
+  "qa": {
+   "duration": 9.52,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "rafael",
+  "name": "Rafael",
+  "description": "Smooth Brazilian voice",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "brazilian",
+   "language": "pt",
+   "use_case": "conversational",
+   "descriptive": "smooth",
+   "native_language": "portuguese"
+  },
+  "file": "rafael.wav",
+  "ref_text": "Olá, tudo bem? Hoje eu quero contar a história de uma pequena vila à beira-mar, onde todas as manhãs o sol pintava os telhados de dourado.",
+  "qa": {
+   "duration": 9.6,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "anastasia",
+  "name": "Anastasia",
+  "description": "Elegant Russian narrator",
+  "labels": {
+   "gender": "female",
+   "age": "middle_aged",
+   "accent": "russian",
+   "language": "ru",
+   "use_case": "narration",
+   "descriptive": "elegant",
+   "native_language": "russian"
+  },
+  "file": "anastasia.wav",
+  "ref_text": "Здравствуйте! Сегодня я расскажу вам историю о маленькой деревне у моря, где каждое утро солнце окрашивало крыши домов в золотой цвет.",
+  "qa": {
+   "duration": 10.64,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "dmitri",
+  "name": "Dmitri",
+  "description": "Deep Russian baritone",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "russian",
+   "language": "ru",
+   "use_case": "narration",
+   "descriptive": "deep",
+   "native_language": "russian"
+  },
+  "file": "dmitri.wav",
+  "ref_text": "Здравствуйте! Сегодня я расскажу вам историю о маленькой деревне у моря, где каждое утро солнце окрашивало крыши домов в золотой цвет.",
+  "qa": {
+   "duration": 13.76,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "yuki",
+  "name": "Yuki",
+  "description": "Gentle Japanese voice",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "japanese",
+   "language": "ja",
+   "use_case": "conversational",
+   "descriptive": "gentle",
+   "native_language": "japanese"
+  },
+  "file": "yuki.wav",
+  "ref_text": "こんにちは。今日は、海辺の小さな村のお話をしましょう。毎朝、太陽が家々の屋根を金色に染めていました。",
+  "qa": {
+   "duration": 9.92,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "kenji",
+  "name": "Kenji",
+  "description": "Calm Japanese narrator",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "japanese",
+   "language": "ja",
+   "use_case": "narration",
+   "descriptive": "calm",
+   "native_language": "japanese"
+  },
+  "file": "kenji.wav",
+  "ref_text": "こんにちは。今日は、海辺の小さな村のお話をしましょう。毎朝、太陽が家々の屋根を金色に染めていました。",
+  "qa": {
+   "duration": 11.44,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "sakura",
+  "name": "Sakura",
+  "description": "Energetic anime-style heroine",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "japanese",
+   "language": "ja",
+   "use_case": "characters",
+   "descriptive": "energetic",
+   "native_language": "japanese"
+  },
+  "file": "sakura.wav",
+  "ref_text": "こんにちは。今日は、海辺の小さな村のお話をしましょう。毎朝、太陽が家々の屋根を金色に染めていました。",
+  "qa": {
+   "duration": 11.04,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "jiwoo",
+  "name": "Ji-woo",
+  "description": "Bright Korean voice",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "korean",
+   "language": "ko",
+   "use_case": "conversational",
+   "descriptive": "bright",
+   "native_language": "korean"
+  },
+  "file": "jiwoo.wav",
+  "ref_text": "안녕하세요. 오늘은 바닷가 작은 마을의 이야기를 들려드릴게요. 매일 아침 햇살이 집집마다 지붕을 황금빛으로 물들였답니다.",
+  "qa": {
+   "duration": 9.04,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "minjun",
+  "name": "Min-jun",
+  "description": "Soft-spoken Korean narrator",
+  "labels": {
+   "gender": "male",
+   "age": "young",
+   "accent": "korean",
+   "language": "ko",
+   "use_case": "narration",
+   "descriptive": "soft",
+   "native_language": "korean"
+  },
+  "file": "minjun.wav",
+  "ref_text": "안녕하세요. 오늘은 바닷가 작은 마을의 이야기를 들려드릴게요. 매일 아침 햇살이 집집마다 지붕을 황금빛으로 물들였답니다.",
+  "qa": {
+   "duration": 10,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "mei",
+  "name": "Mei",
+  "description": "Sweet Mandarin voice",
+  "labels": {
+   "gender": "female",
+   "age": "young",
+   "accent": "mandarin",
+   "language": "zh",
+   "use_case": "conversational",
+   "descriptive": "sweet",
+   "native_language": "chinese"
+  },
+  "file": "mei.wav",
+  "ref_text": "大家好。今天我想给大家讲一个海边小村庄的故事。每天早上，阳光都会把家家户户的屋顶染成金色。",
+  "qa": {
+   "duration": 10,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "wei",
+  "name": "Wei",
+  "description": "Mandarin news presenter",
+  "labels": {
+   "gender": "male",
+   "age": "middle_aged",
+   "accent": "mandarin",
+   "language": "zh",
+   "use_case": "news",
+   "descriptive": "authoritative",
+   "native_language": "chinese"
+  },
+  "file": "wei.wav",
+  "ref_text": "大家好。今天我想给大家讲一个海边小村庄的故事。每天早上，阳光都会把家家户户的屋顶染成金色。",
+  "qa": {
+   "duration": 11.92,
+   "score": 1,
+   "attempts": 1
+  }
+ },
+ {
+  "id": "lan",
+  "name": "Lan",
+  "description": "Gentle Mandarin grandmother",
+  "labels": {
+   "gender": "female",
+   "age": "old",
+   "accent": "mandarin",
+   "language": "zh",
+   "use_case": "storytelling",
+   "descriptive": "gentle",
+   "native_language": "chinese"
+  },
+  "file": "lan.wav",
+  "ref_text": "大家好。今天我想给大家讲一个海边小村庄的故事。每天早上，阳光都会把家家户户的屋顶染成金色。",
+  "qa": {
+   "duration": 10.48,
+   "score": 1,
+   "attempts": 1
+  }
+ }
+]

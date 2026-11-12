@@ -1,0 +1,31 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Resonant</title>
+  <meta name="description" content="Self-hosted AI voice studio: text to speech, speech to text, voice changer and sound effects.">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400..700&family=Inter+Tight:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script>
+    try { const t = localStorage.getItem("theme"); if (t === "dark") document.documentElement.dataset.theme = "dark"; } catch {}
+  </script>
+</head>
+<body>
+  <div id="app" class="shell">
+    <aside class="sidebar" id="sidebar"></aside>
+    <div class="scrim" id="scrim"></div>
+    <div class="main-col">
+      <header class="topbar" id="topbar"></header>
+      <main class="page" id="page" tabindex="-1"></main>
+    </div>
+  </div>
+  <div class="player" id="player" hidden></div>
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+  <div id="modal-root"></div>
+  <script type="module" src="/js/app.js"></script>
+</body>
+</html>
