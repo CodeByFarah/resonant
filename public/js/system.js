@@ -34,7 +34,10 @@ export async function renderSystem(box, { measure = false } = {}) {
       box.innerHTML = String(html`${factsHtml(s)}${note ? html`<p class="small subtle">${note}</p>` : ""}${featuresHtml(s)}`);
     };
     if (measure && !s.speed) {
-      draw("Timing the built-in voices on this computer…");
+      const h = await api("/api/health").catch(() => null);
+      draw(h?.models?.tts === "ready"
+        ? "Timing the built-in voices on this computer…"
+        : "Getting the built-in voices ready, then timing them. The first time, this includes downloading the voice model (about 330 MB), which can take a few minutes.");
       try { await api("/api/system/speed", { method: "POST" }); } catch (e) { toastError(e); }
       s = await api("/api/system");
     }

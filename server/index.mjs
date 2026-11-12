@@ -928,8 +928,15 @@ server.requestTimeout = 0; // long local generations
 // ECONNRESET. Keep idle sockets well past any client's reuse window.
 server.keepAliveTimeout = 65_000;
 server.headersTimeout = 66_000;
+// Started by the desktop app (with an IPC channel): when the app goes away, even if it crashes,
+// the channel closes; stop the Python worker and exit instead of running on unseen.
+if (process.send) {
+  process.on("disconnect", () => { try { qwen.stop(); } finally { process.exit(0); } });
+  server.on("error", (e) => { process.send?.({ type: "error", code: e.code, message: e.message }); process.exit(1); });
+}
 server.listen(PORT, HOST, () => {
   console.log(`Resonant running at http://${HOST}:${PORT}`);
+  process.send?.({ type: "ready", port: server.address().port });
   if (NETWORK_MODE && !REQUIRED_KEY) console.warn("[security] Listening on the network without an access key: anyone who can reach this port can use Resonant, read your history and change your settings. Set RESONANT_API_KEY.");
   local.warmup();
 });

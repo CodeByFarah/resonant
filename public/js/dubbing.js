@@ -215,7 +215,7 @@ export const dubbingEditor = {
       if (!t) { titleIn.value = d.title; return; }
       try { d = await api(`/api/dubbing/${id}`, { method: "PATCH", json: { title: t } }); crumbs(); } catch (e) { toastError(e); }
     };
-    const audioUrl = () => `/api/dubbing/${id}/audio?format=wav&v=${d.updated_unix}`;
+    const audioUrl = () => `/api/dubbing/${encodeURIComponent(id)}/audio?format=wav&v=${encodeURIComponent(d.updated_unix)}`;
     const spkIndex = (sid) => Math.max(0, d.speakers.findIndex((s) => s.speaker_id === sid)) % 6;
 
     // ---------- status ----------

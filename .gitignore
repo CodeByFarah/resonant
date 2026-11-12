@@ -3,3 +3,7 @@ data/
 # Side-by-side sound effect tests (generated audio, not part of the app)
 sfx-compare/
 *.log
+__pycache__/
+*.pyc
+# Desktop installers built by electron-builder
+desktop/dist/

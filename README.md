@@ -29,6 +29,27 @@ On first use, each local model is downloaded from Hugging Face into `~/.resonant
 
 All of the optional models run in one Python worker. On a CPU they're slow; on an NVIDIA GPU they're roughly 20–50× faster. See [GPU worker](#gpu-worker).
 
+### Desktop app
+
+`desktop/` wraps the same studio in its own window, for people who'd rather install an app than run a server. It is a thin Electron shell: it starts `server/index.mjs` with Electron's built-in Node (no separate Node.js install), waits until it's listening, and shows it. Everything else is the code above, so the web version and the desktop app never drift apart.
+
+- **Data** lives in the user's app-data folder (`%APPDATA%\Resonant\data` on Windows, `~/Library/Application Support/Resonant/data` on a Mac, `~/.config/Resonant/data` on Linux), not inside the program folder, so updates and uninstalls keep it. `RESONANT_DATA_DIR` still overrides it. File → Open data folder and File → Open engine log open them.
+- **Port:** the app uses the first free port from 3000 to 3005, which the browser extension checks on its own, and only listens on this computer.
+- **Closing the window quits Resonant** and stops the voice engine and the Python worker with it, even if the app crashes.
+- **Links** to other sites open in your default browser; the window only shows Resonant. Microphone access is granted to Resonant's own pages for recording voice samples, and nothing else is.
+- **Optional models** (Qwen3-TTS and the rest of the Python worker) still need the Python setup described below; the desktop app finds it in the same place.
+
+To run it from source and to build installers:
+
+```bash
+cd desktop
+npm install
+npm start              # runs the app against the code in this folder
+npm run dist:win       # Windows installer in desktop/dist (dist:mac and dist:linux on those systems)
+```
+
+Installers are built on the system they're for: the Windows installer on Windows, and so on. They aren't code-signed yet, so Windows SmartScreen shows "Windows protected your PC" on first launch (More info → Run anyway), and macOS needs right-click → Open.
+
 ### Streaming playback
 
 On the Text to Speech and Dialogue pages, MP3 audio starts playing as soon as the first sentence is ready instead of after the whole text. The rest arrives while you listen; on a slow CPU playback can pause briefly between pieces. **Stop** ends generation early, and a stopped clip isn't saved to history. WAV output (and browsers without MediaSource support for MP3) waits for the whole file, as before.

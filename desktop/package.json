@@ -1,0 +1,150 @@
+{
+  "name": "resonant-desktop",
+  "productName": "Resonant",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Resonant: a voice studio that runs on your own computer.",
+  "author": "Resonant",
+  "main": "main.cjs",
+  "scripts": {
+    "start": "electron .",
+    "dist:win": "node build-win.mjs",
+    "dist:mac": "electron-builder --mac",
+    "dist:linux": "electron-builder --linux"
+  },
+  "devDependencies": {
+    "electron": "44.10.0",
+    "electron-builder": "26.18.0"
+  },
+  "build": {
+    "appId": "app.resonant.studio",
+    "productName": "Resonant",
+    "copyright": "Resonant contributors",
+    "directories": {
+      "output": "dist",
+      "buildResources": "build"
+    },
+    "files": [
+      "main.cjs",
+      "loading.html",
+      "build/icon.png",
+      "package.json"
+    ],
+    "asar": true,
+    "win": {
+      "target": [
+        {
+          "target": "dir",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build/icon.ico",
+      "extraResources": [
+        {
+          "from": "..",
+          "to": "core",
+          "filter": [
+            "server/**",
+            "public/**",
+            "library/**",
+            "extension/**",
+            "worker/**",
+            "package.json",
+            "README.md",
+            "THIRD_PARTY_NOTICES.md",
+            "!**/__pycache__/**",
+            "!**/*.pyc"
+          ]
+        },
+        {
+          "from": "../node_modules",
+          "to": "core/node_modules",
+          "filter": [
+            "**/*",
+            "!**/*.map",
+            "!**/*.d.ts",
+            "!onnxruntime-web/**",
+            "!onnxruntime-node/bin/napi-v3/linux/**",
+            "!onnxruntime-node/bin/napi-v3/darwin/**"
+          ]
+        }
+      ]
+    },
+    "mac": {
+      "target": [
+        "dmg"
+      ],
+      "category": "public.app-category.music",
+      "icon": "build/icon.png",
+      "extraResources": [
+        {
+          "from": "..",
+          "to": "core",
+          "filter": [
+            "server/**",
+            "public/**",
+            "library/**",
+            "extension/**",
+            "worker/**",
+            "package.json",
+            "README.md",
+            "THIRD_PARTY_NOTICES.md",
+            "!**/__pycache__/**",
+            "!**/*.pyc"
+          ]
+        },
+        {
+          "from": "../node_modules",
+          "to": "core/node_modules",
+          "filter": [
+            "**/*",
+            "!**/*.map",
+            "!**/*.d.ts",
+            "!onnxruntime-web/**",
+            "!onnxruntime-node/bin/napi-v3/linux/**",
+            "!onnxruntime-node/bin/napi-v3/win32/**"
+          ]
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage"
+      ],
+      "category": "Audio",
+      "icon": "build/icon.png",
+      "extraResources": [
+        {
+          "from": "..",
+          "to": "core",
+          "filter": [
+            "server/**",
+            "public/**",
+            "library/**",
+            "extension/**",
+            "worker/**",
+            "package.json",
+            "README.md",
+            "THIRD_PARTY_NOTICES.md",
+            "!**/__pycache__/**",
+            "!**/*.pyc"
+          ]
+        },
+        {
+          "from": "../node_modules",
+          "to": "core/node_modules",
+          "filter": [
+            "**/*",
+            "!**/*.map",
+            "!**/*.d.ts",
+            "!onnxruntime-web/**",
+            "!onnxruntime-node/bin/napi-v3/darwin/**",
+            "!onnxruntime-node/bin/napi-v3/win32/**"
+          ]
+        }
+      ]
+    }
+  }
+}
