@@ -22,7 +22,13 @@ const post = (p, body) => req(p, { method: "POST", headers: { "content-type": "a
 
 let ttsId, wav, transcriptId;
 
-await step("health", async () => { const h = await jsonReq("/api/health"); assert.equal(h.status, "ok"); });
+await step("health", async () => { const h = await jsonReq("/api/health"); assert.equal(h.status, "ok"); assert.match(h.version, /^\d+\.\d+\.\d+/); });
+await step("third-party notices match the credits in Settings", async () => {
+  const { spawnSync } = await import("node:child_process");
+  const { fileURLToPath } = await import("node:url");
+  const r = spawnSync(process.execPath, [fileURLToPath(new URL("./write-notices.mjs", import.meta.url)), "--check"], { encoding: "utf8" });
+  assert.equal(r.status, 0, r.stdout + r.stderr);
+});
 await step("voices list + filters", async () => {
   const all = await jsonReq("/v2/voices?page_size=100");
   assert.ok(all.voices.length >= 28, "expected local Kokoro voices");

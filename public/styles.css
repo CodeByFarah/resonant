@@ -376,6 +376,16 @@ input[type=range]:disabled { opacity: .4; }
 .seg.pills { background: none; padding: 0; gap: 4px; }
 .seg.pills button { height: 32px; padding: 0 12px; border-radius: var(--radius-btn); font-size: 14px; }
 .seg.pills button.active { background: var(--bg-muted); box-shadow: none; }
+.credits { display: flex; flex-direction: column; margin-top: 8px; }
+.credit { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; padding: 10px 0; border-top: 1px solid var(--border); }
+.credit:first-child { border-top: 0; }
+.credit-main { min-width: 0; }
+.credit-name { font-weight: 500; font-size: 14px; color: var(--fg); text-decoration: none; }
+.credit-name:hover { text-decoration: underline; }
+.credit-note { margin-top: 4px; color: var(--fg-muted); }
+.credit-caution { margin-top: 4px; color: var(--warning); }
+.credit .badge { text-decoration: none; flex-shrink: 0; }
+.credits-more summary { cursor: pointer; }
 .set-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; font-size: 14px; font-weight: 500; min-height: 36px; }
 .set-row .select { width: auto; min-width: 160px; height: 36px; border-radius: var(--radius-btn); font-size: 14px; }
 .set-row .seg, .set-row .badge { flex-shrink: 0; flex-wrap: nowrap; }

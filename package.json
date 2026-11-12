@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node server/index.mjs",
     "smoke": "node scripts/smoke.mjs",
-    "test": "node scripts/api-test.mjs"
+    "test": "node scripts/api-test.mjs",
+    "notices": "node scripts/write-notices.mjs"
   },
   "keywords": [],
   "author": "",

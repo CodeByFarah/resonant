@@ -4,7 +4,11 @@ import fs from "node:fs";
 import path from "node:path";
 import crypto from "node:crypto";
 
-export const DATA_DIR = path.resolve(process.env.RESONANT_DATA_DIR || "data");
+// The data folder sits next to the code (<Resonant>/data), whatever folder the server is started
+// from. RESONANT_DATA_DIR moves it elsewhere; the desktop app points it at the user's app-data folder.
+export const DATA_DIR = process.env.RESONANT_DATA_DIR
+  ? path.resolve(process.env.RESONANT_DATA_DIR)
+  : path.join(import.meta.dirname, "..", "data");
 export const AUDIO_DIR = path.join(DATA_DIR, "audio");
 fs.mkdirSync(AUDIO_DIR, { recursive: true });
 

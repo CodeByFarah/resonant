@@ -18,6 +18,7 @@ import { parseOutputFormat, encode, encodeMp3, encodeWav, mp3Writer, decodeToMon
 const PORT = Number(process.env.PORT || 3000);
 const HOST = process.env.HOST || "127.0.0.1";
 const PUBLIC_DIR = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "public");
+const VERSION = JSON.parse(fs.readFileSync(path.join(PUBLIC_DIR, "..", "package.json"), "utf8")).version;
 const PREVIEW_DIR = path.join(db.DATA_DIR, "previews");
 const MAX_BODY = 50 * 1024 * 1024;
 const MAX_TTS_CHARS = 20000;
@@ -792,6 +793,7 @@ route("POST", "/api/data/clear-history", async (req, res) => {
 
 route("GET", "/api/health", async (req, res) => json(res, 200, {
   status: "ok",
+  version: VERSION,
   models: { ...local.modelState(), qwen: qwen.state() },
   elevenlabs: el.enabled(),
   stats: db.historyStats(),
