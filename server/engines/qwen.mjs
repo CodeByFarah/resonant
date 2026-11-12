@@ -3,6 +3,7 @@
 // Remote mode: a worker started on a GPU machine, reached over HTTP(S) with a token
 // (Settings → Providers → GPU worker, or RESONANT_WORKER_URL / RESONANT_WORKER_TOKEN).
 import { spawn } from "node:child_process";
+import crypto from "node:crypto";
 import fs from "node:fs";
 import http from "node:http";
 import https from "node:https";
@@ -236,6 +237,9 @@ const cancelled = () => httpError(499, "Cancelled");
 // ---------- local worker process ----------
 let proc = null;
 let ready = null;
+// The local worker listens on a random port on 127.0.0.1. A fresh token per start keeps other
+// programs on this computer (and web pages that find the port) from using it.
+let localToken = "";
 let idleTimer = null;
 let inflight = 0;
 let restartPending = false;
@@ -244,9 +248,10 @@ function start() {
   if (ready) return ready;
   if (!localPython()) throw httpError(503, `Qwen3-TTS needs its Python environment at ${PYTHON}. See README → Qwen3-TTS.`);
   status = "loading";
+  localToken = crypto.randomBytes(24).toString("hex");
   ready = new Promise((resolve, reject) => {
     proc = spawn(PYTHON, [WORKER, "0"], {
-      env: { ...process.env, HF_HUB_OFFLINE: "1", QWEN_TTS_SIZE: size(), PYTHONIOENCODING: "utf-8", PYTHONUNBUFFERED: "1", RESONANT_WORKER_TOKEN: "" },
+      env: { ...process.env, HF_HUB_OFFLINE: "1", QWEN_TTS_SIZE: size(), PYTHONIOENCODING: "utf-8", PYTHONUNBUFFERED: "1", RESONANT_WORKER_TOKEN: localToken },
       windowsHide: true,
     });
     let out = "";
@@ -295,7 +300,7 @@ async function call(endpoint, payload, { headers = { "content-type": "applicatio
     const worker = proc; // the process serving this request
     touch();
     const body = Buffer.isBuffer(payload) ? payload : Buffer.from(JSON.stringify(payload));
-    const res = await request(base + endpoint, { body, headers, token: r?.token, signal }).catch((e) => {
+    const res = await request(base + endpoint, { body, headers, token: r ? r.token : localToken, signal }).catch((e) => {
       if (signal?.aborted) {
         if (!r && inflight === 1 && proc === worker) { console.log(`[qwen] ${endpoint} cancelled by the listener; restarting the worker to free the CPU`); stop(); }
         throw cancelled();

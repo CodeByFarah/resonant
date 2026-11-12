@@ -862,17 +862,47 @@ function serveStatic(req, res, pathname) {
     return fs.createReadStream(VENDOR[pathname]).pipe(res);
   }
   let file = path.normalize(path.join(PUBLIC_DIR, decodeURIComponent(pathname)));
-  if (!file.startsWith(PUBLIC_DIR)) return json(res, 403, { detail: "Forbidden" });
+  if (file !== PUBLIC_DIR && !file.startsWith(PUBLIC_DIR + path.sep)) return json(res, 403, { detail: "Forbidden" });
   if (!fs.existsSync(file) || fs.statSync(file).isDirectory()) file = path.join(PUBLIC_DIR, "index.html");
   const ext = path.extname(file);
   res.writeHead(200, { "content-type": MIME[ext] || "application/octet-stream", "cache-control": "no-cache" });
   fs.createReadStream(file).pipe(res);
 }
 
+// ---------- request guard ----------
+// Browsers let any web page send requests to a server on this computer. Two checks keep the
+// sites you visit from using Resonant behind your back:
+// - the Host header must name this server, which stops DNS rebinding (a site pointing its own
+//   domain at 127.0.0.1 to read the API as if it were same-origin);
+// - API calls that change something must come from Resonant's own pages, a browser extension,
+//   or a program that isn't a web page (curl, scripts and SDKs send no Origin header).
+const NETWORK_MODE = !["127.0.0.1", "localhost", "::1"].includes(HOST);
+const EXTRA_HOSTS = new Set((process.env.RESONANT_ALLOWED_HOSTS || "").split(",").map((s) => s.trim().toLowerCase()).filter(Boolean));
+function hostAllowed(host) {
+  if (!host) return true; // HTTP/1.0 clients send none
+  const name = host.toLowerCase().replace(/:\d+$/, "").replace(/^\[|\]$/g, "");
+  if (["localhost", "127.0.0.1", "::1"].includes(name) || name.endsWith(".localhost") || EXTRA_HOSTS.has(name)) return true;
+  // Listening on the network (HOST=0.0.0.0), the server is reached by its IP address or name;
+  // the access key protects it there (a warning is printed at startup when there isn't one).
+  return NETWORK_MODE;
+}
+const EXTENSION_ORIGIN = /^(chrome|moz|safari-web)-extension:\/\/[^/]+$/;
+function originAllowed(req) {
+  const origin = req.headers.origin;
+  if (origin === undefined) return true;
+  if (EXTENSION_ORIGIN.test(origin)) return true;
+  try {
+    const o = new URL(origin);
+    return o.host.toLowerCase() === String(req.headers.host || "").toLowerCase() || EXTRA_HOSTS.has(o.hostname.toLowerCase());
+  } catch { return false; }
+}
+
 const server = http.createServer(async (req, res) => {
   const url = new URL(req.url, "http://localhost");
   const isApi = /^\/(v1|v2|api)\//.test(url.pathname);
   try {
+    if (!hostAllowed(req.headers.host)) throw httpError(403, "This server doesn't answer to that host name. To reach it under another name, add the name to RESONANT_ALLOWED_HOSTS.");
+    if (isApi && !["GET", "HEAD", "OPTIONS"].includes(req.method) && !originAllowed(req)) throw httpError(403, "Cross-site request blocked: Resonant only accepts changes from its own pages, a browser extension, or programs that aren't web pages.");
     if (!isApi) return serveStatic(req, res, url.pathname);
     const publicPaths = ["/api/session", "/api/health"];
     if (!publicPaths.includes(url.pathname) && !authorized(req)) throw httpError(401, "Missing or invalid xi-api-key");
@@ -900,5 +930,6 @@ server.keepAliveTimeout = 65_000;
 server.headersTimeout = 66_000;
 server.listen(PORT, HOST, () => {
   console.log(`Resonant running at http://${HOST}:${PORT}`);
+  if (NETWORK_MODE && !REQUIRED_KEY) console.warn("[security] Listening on the network without an access key: anyone who can reach this port can use Resonant, read your history and change your settings. Set RESONANT_API_KEY.");
   local.warmup();
 });

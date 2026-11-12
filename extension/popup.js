@@ -41,7 +41,7 @@ async function connect({ search = true } = {}) {
     conn.title = `Connected to ${settings.server}`;
     // Your own voices first, then the rest of the library.
     const mine = voices.filter((v) => v.in_my_voices), rest = voices.filter((v) => !v.in_my_voices);
-    const opt = (v) => `<option value="${v.voice_id}">${escape(v.name)}${v.provider === "qwen" ? " · Qwen3" : v.provider === "elevenlabs" ? " · ElevenLabs" : ""}</option>`;
+    const opt = (v) => `<option value="${escape(v.voice_id)}">${escape(v.name)}${v.provider === "qwen" ? " · Qwen3" : v.provider === "elevenlabs" ? " · ElevenLabs" : ""}</option>`;
     select.innerHTML = (mine.length ? `<optgroup label="My voices">${mine.map(opt).join("")}</optgroup>` : "") + `<optgroup label="Library">${rest.map(opt).join("")}</optgroup>`;
     if (!voices.some((v) => v.voice_id === settings.voice)) { settings.voice = voices[0]?.voice_id || DEFAULTS.voice; await setSettings({ voice: settings.voice }); }
     select.value = settings.voice;

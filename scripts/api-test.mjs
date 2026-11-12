@@ -23,6 +23,22 @@ const post = (p, body) => req(p, { method: "POST", headers: { "content-type": "a
 let ttsId, wav, transcriptId;
 
 await step("health", async () => { const h = await jsonReq("/api/health"); assert.equal(h.status, "ok"); assert.match(h.version, /^\d+\.\d+\.\d+/); });
+await step("security: websites can't drive the API; host names and paths are checked", async () => {
+  const http = await import("node:http");
+  const base = new URL(BASE);
+  const send = (method, p, extra, body) => new Promise((resolve, reject) => {
+    const req = http.request({ host: base.hostname, port: base.port || 80, method, path: p, headers: { ...headers, ...(body ? { "content-type": "text/plain", "content-length": Buffer.byteLength(body) } : {}), ...extra } }, (res) => { res.resume(); res.on("end", () => resolve(res.statusCode)); });
+    req.on("error", reject);
+    req.end(body);
+  });
+  const host = base.host;
+  assert.equal(await send("POST", "/v1/text-to-speech/af_heart", { host, origin: "https://evil.example" }, JSON.stringify({ text: "hi" })), 403, "cross-site POST");
+  assert.equal(await send("PATCH", "/api/settings", { host, origin: "null" }, "{}"), 403, "opaque origin");
+  assert.equal(await send("GET", "/v1/history", { host: "evil.example" }), 403, "foreign Host header (DNS rebinding)");
+  assert.equal(await send("GET", "/..%2f..%2fpackage.json", { host }), 403, "path escape");
+  assert.equal(await send("PATCH", "/api/settings", { host, origin: `${base.protocol}//${host}` }, "{}"), 200, "same-origin page");
+  assert.equal(await send("PATCH", "/api/settings", { host, origin: "chrome-extension://abcdefghijklmnop" }, "{}"), 200, "browser extension");
+});
 await step("system check: hardware facts and a verdict per feature", async () => {
   const s = await jsonReq("/api/system");
   assert.ok(s.cpu.threads > 0 && s.memory.total_gb > 0, "cpu and memory");

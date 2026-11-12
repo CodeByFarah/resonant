@@ -194,6 +194,7 @@ Environment variables:
 |---|---|---|
 | `PORT`, `HOST` | `3000`, `127.0.0.1` | Listen address |
 | `RESONANT_API_KEY` | unset | When set, every API call needs `xi-api-key: <key>` and the web app asks for the key |
+| `RESONANT_ALLOWED_HOSTS` | unset | Extra host names the server answers to, comma-separated (for example the name of a reverse proxy in front of it) |
 | `RESONANT_DATA_DIR` | `data/` next to the code | SQLite database and audio files (the same folder whichever directory you start the server from) |
 | `RESONANT_MODELS_DIR` | `~/.resonant/models` | Model cache (kept short because onnxruntime can't open paths over 260 characters on Windows) |
 | `RESONANT_SFX_IDLE_MINUTES` | `5` | Unloads MusicGen after this much idle time to free about 2 GB of RAM (`0` keeps it loaded) |
@@ -202,6 +203,14 @@ Environment variables:
 | `RESONANT_QWEN_SIZE` | `0.6B` | Initial model size. The Settings choice overrides it once saved |
 | `RESONANT_QWEN_IDLE_MINUTES` | `10` | Stops the Qwen worker after this much idle time (`0` keeps it running) |
 | `RESONANT_WORKER_URL`, `RESONANT_WORKER_TOKEN` | unset | Use a GPU worker on another machine. The Settings choice overrides these once saved |
+
+## Security
+
+- **Only this computer, by default.** The server listens on 127.0.0.1. With `HOST=0.0.0.0` it accepts connections from your network; set `RESONANT_API_KEY` then, or anyone who can reach the port can use it, read your history and change your settings (the server prints a warning at startup).
+- **Websites can't use it behind your back.** A web page you visit can send requests to a server on your computer. Resonant refuses requests addressed to a host name other than its own (which stops DNS rebinding), and refuses API calls that change anything when they come from another site's page. Its own pages, browser extensions, and programs that aren't web pages (curl, scripts, SDKs) work as before. To reach it through a reverse proxy under another name, add that name to `RESONANT_ALLOWED_HOSTS`.
+- **The Python worker is private.** The local Qwen3 worker listens on a random port on 127.0.0.1 and gets a new random token each time it starts, so other programs on the computer can't use it. A remote GPU worker should always be started with `--token`.
+- **Uploads are capped** at 50 MB per request, imported EPUB files at 64 MB per unpacked file, and PDFs are parsed with script evaluation turned off.
+- **Dependencies:** `npm audit` reports no known vulnerabilities. `sharp`, an image library that Transformers.js installs but Resonant never calls, is pinned to a fixed release through `overrides` in `package.json`.
 
 ## Architecture
 
@@ -270,8 +279,7 @@ Output formats: `mp3_<rate>_<kbps>`, `wav_<rate>` and `pcm_<rate>`.
 - **Worker crashes on this kind of laptop:** swapping one 7 GB Qwen model for another occasionally crashes the worker when memory is tight. Resonant then starts a fresh worker and retries the request once, so the request still succeeds; it fails only if the fresh worker crashes too.
 - **Local cloning needs Qwen3-TTS** (see above). It copies the timbre and tone of the sample. Style instructions work only with the 9 built-in Qwen voices, not with clones.
 - **Qwen3-TTS and Demucs on CPU are slow:** about 4 s per second of speech, plus 10–60 s when the worker first starts or swaps between models. Only one model stays in memory at a time. At 1.7B, expect about 2× the time. A [GPU worker](#gpu-worker) fixes this.
-- **Licences to check before selling Resonant:** Settings → About and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) list every model and library with its licence (both come from `public/js/credits.js`; run `npm run notices` after editing it). Kokoro's pronunciation step includes eSpeak NG, which is GPL-3.0-or-later, so a build that ships it must also make that source available (linked in the notices). The MusicGen Small weights used for Sound Effects are CC-BY-NC 4.0 (non-commercial). Qwen3-TTS and Kokoro are Apache 2.0, Whisper is MIT, Demucs is MIT, M2M100 is MIT. The Opus-MT translation models are CC-BY 4.0, which allows commercial use but requires crediting Helsinki-NLP (the OPUS-MT project) in the product. Mediabunny (the MP4 export library) is MPL-2.0: fine to ship unmodified in a commercial product; changes to its own files would have to be published. `npm audit` reports advisories in `sharp`, an image library that `@huggingface/transformers` installs but Resonant never calls.
-- **Local speech to text:** Whisper Base doesn't report which language it detected (Turbo does). Speaker detection handles clear turns well, but people talking over each other are labelled as one speaker.
+- **Licences to check before selling Resonant:** Settings → About and [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) list every model and library with its licence (both come from `public/js/credits.js`; run `npm run notices` after editing it). Kokoro's pronunciation step includes eSpeak NG, which is GPL-3.0-or-later, so a build that ships it must also make that source available (linked in the notices). The MusicGen Small weights used for Sound Effects are CC-BY-NC 4.0 (non-commercial). Qwen3-TTS and Kokoro are Apache 2.0, Whisper is MIT, Demucs is MIT, M2M100 is MIT. The Opus-MT translation models are CC-BY 4.0, which allows commercial use but requires crediting Helsinki-NLP (the OPUS-MT project) in the product. Mediabunny (the MP4 export library) is MPL-2.0: fine to ship unmodified in a commercial product; changes to its own files would have to be published.- **Local speech to text:** Whisper Base doesn't report which language it detected (Turbo does). Speaker detection handles clear turns well, but people talking over each other are labelled as one speaker.
 - **Server-side decoding** handles WAV and MP3. The web app converts other formats (M4A, WebM, OGG, FLAC, video) to WAV in the browser before uploading. Direct API callers must send WAV or MP3.
 - **Transcripts don't store the source audio,** so word-click playback works only in the browser session that uploaded the file.
 - **Translation quality:** Opus-MT handles everyday speech well, but it translates sentence by sentence without the surrounding context, so a pronoun or a formal/informal "you" can come out wrong. Pairs into Japanese and Korean use M2M100 and need more checking. Every line can be edited in the dubbing editor.

@@ -1,8 +1,8 @@
 {
   "name": "resonant",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "A self-hosted voice studio: text to speech, voice cloning, dialogue, dubbing and transcription that run on your own computer.",
+  "main": "server/index.mjs",
   "scripts": {
     "start": "node server/index.mjs",
     "smoke": "node scripts/smoke.mjs",
@@ -21,6 +21,9 @@
     "mpg123-decoder": "^1.0.3",
     "pdfjs-dist": "^4.10.38",
     "wavefile": "^11.0.0"
+  },
+  "overrides": {
+    "sharp": "0.35.5"
   },
   "engines": {
     "node": ">=22.5"

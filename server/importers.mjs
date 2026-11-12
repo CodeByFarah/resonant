@@ -74,7 +74,12 @@ function stripMarkdown(md) {
 }
 
 // ---------- EPUB (a zip of XHTML files, ordered by the OPF spine) ----------
+const MAX_ENTRY_BYTES = 64 * 1024 * 1024;
 function unzip(buf) {
+  try { return readZip(buf); }
+  catch (e) { if (e.status) throw e; throw httpError(422, "That EPUB file is damaged and can't be read."); }
+}
+function readZip(buf) {
   let eocd = -1;
   for (let i = buf.length - 22; i >= Math.max(0, buf.length - 65557); i--) if (buf.readUInt32LE(i) === 0x06054b50) { eocd = i; break; }
   if (eocd < 0) throw httpError(422, "That EPUB file is damaged (not a zip archive).");
@@ -88,9 +93,15 @@ function unzip(buf) {
     const local = buf.readUInt32LE(p + 42);
     const name = buf.subarray(p + 46, p + 46 + nlen).toString("utf8");
     files.set(name, () => {
-      const start = local + 30 + buf.readUInt16LE(local + 26) + buf.readUInt16LE(local + 28);
-      const data = buf.subarray(start, start + csize);
-      return method === 8 ? zlib.inflateRawSync(data) : data;
+      try {
+        const start = local + 30 + buf.readUInt16LE(local + 26) + buf.readUInt16LE(local + 28);
+        const data = buf.subarray(start, start + csize);
+        // The cap stops a tiny archive that unpacks to gigabytes (a zip bomb) from exhausting memory.
+        return method === 8 ? zlib.inflateRawSync(data, { maxOutputLength: MAX_ENTRY_BYTES }) : data;
+      } catch (e) {
+        if (e.code === "ERR_BUFFER_TOO_LARGE" || /maxOutputLength|Cannot create a Buffer larger/i.test(e.message)) throw httpError(413, `"${name}" inside that EPUB unpacks to more than ${MAX_ENTRY_BYTES / 1024 / 1024} MB.`);
+        throw httpError(422, "That EPUB file is damaged and can't be read.");
+      }
     });
     p += 46 + nlen + elen + clen;
   }
