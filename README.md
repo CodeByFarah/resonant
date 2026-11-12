@@ -4,7 +4,9 @@ A self-hosted AI voice studio modelled on the ElevenLabs web app: text to speech
 
 ## Run it
 
-Requires Node.js 22.5 or later (it uses the built-in `node:sqlite`). Python and ffmpeg are not needed.
+Requires Node.js 22.5 or later (it uses the built-in `node:sqlite`). Python and ffmpeg are not needed. Prefer an app with an installer? See [Desktop app](#desktop-app).
+
+The first time the studio opens, it shows what this computer can run: processor, memory, graphics card and free space, a verdict for each feature, and a short speed test of the built-in voices. It's in Settings → This computer afterwards.
 
 ```bash
 npm install
@@ -48,7 +50,7 @@ npm start              # runs the app against the code in this folder
 npm run dist:win       # Windows installer in desktop/dist (dist:mac and dist:linux on those systems)
 ```
 
-Installers are built on the system they're for: the Windows installer on Windows, and so on. They aren't code-signed yet, so Windows SmartScreen shows "Windows protected your PC" on first launch (More info → Run anyway), and macOS needs right-click → Open.
+Installers are built on the system they're for: the Windows installer on Windows, and so on. They aren't code-signed yet, which has two effects on Windows: SmartScreen shows "Windows protected your PC" (More info → Run anyway), and on PCs with **Smart App Control** turned on, Windows refuses to run the installer at all ("An Application Control policy has blocked this file"). Only a code-signing certificate fixes the second. On a Mac, an unsigned app needs right-click → Open the first time.
 
 ### Streaming playback
 
