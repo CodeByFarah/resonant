@@ -2,7 +2,7 @@
 
 **A voice studio that runs on your own computer.** Text to speech, voice cloning and design, multi-speaker dialogue, video dubbing, audiobooks, transcription and sound effects, with open models running locally: free, private, and with no limit on how much you make.
 
-[Download for Windows](https://github.com/CodeByFarah/resonant/releases/latest) · [Website](https://codebyfarah.github.io/resonant/) · [Run it yourself](#run-it) · Apache-2.0
+[Download for Windows](https://github.com/CodeByFarah/resonant/releases/latest) · [Website](https://resonant-studio.netlify.app/) · [Run it yourself](#run-it) · Apache-2.0
 
 - **Works offline** once the models are downloaded; your text and recordings never leave your computer.
 - **An ElevenLabs-compatible API**, so apps built for ElevenLabs can switch by changing one address.

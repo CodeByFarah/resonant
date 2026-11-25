@@ -45,7 +45,7 @@
     "type": "git",
     "url": "git+https://github.com/CodeByFarah/resonant.git"
   },
-  "homepage": "https://codebyfarah.github.io/resonant/",
+  "homepage": "https://resonant-studio.netlify.app/",
   "bugs": {
     "url": "https://github.com/CodeByFarah/resonant/issues"
   }

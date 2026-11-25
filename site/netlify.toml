@@ -1,0 +1,10 @@
+# Netlify settings for the landing page: plain static files, nothing to build.
+[build]
+  publish = "."
+  command = ""
+
+# Audio samples and scripts change only when the page is rebuilt; let browsers cache them.
+[[headers]]
+  for = "/audio/*"
+  [headers.values]
+    Cache-Control = "public, max-age=604800"
