@@ -356,9 +356,17 @@ async function tts(req, res, p, q, streaming) {
   let seconds = 0;
   let gone = false;
   res.on("close", () => { if (!res.writableFinished) gone = true; });
-  res.writeHead(200, { "content-type": fmt.contentType, "cache-control": "no-store", "x-accel-buffering": "no", "history-item-id": id, "request-id": id });
-  res.flushHeaders();
-  const send = (buf) => { if (!buf.length) return; parts.push(buf); res.write(buf); };
+  // Headers go out with the first audio, not before: if the engine fails before making any sound
+  // (a Qwen3 worker that can't start, say), the client gets a real error instead of a dropped
+  // connection, which browsers report only as "network error".
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    res.writeHead(200, { "content-type": fmt.contentType, "cache-control": "no-store", "x-accel-buffering": "no", "history-item-id": id, "request-id": id });
+    res.flushHeaders();
+  };
+  const send = (buf) => { if (!buf.length) return; start(); parts.push(buf); res.write(buf); };
   // A disconnect is only noticed when the event loop gets a turn, and a finished piece resolves
   // straight into the next step, so let it run once before each check.
   const stillThere = async () => { await new Promise(setImmediate); return !gone; };
@@ -369,6 +377,7 @@ async function tts(req, res, p, q, streaming) {
   }
   if (!(await stillThere())) return;
   if (mp3) send(mp3.end());
+  start();
   res.end();
   db.addHistory({ ...record, id, model_id, audio: Buffer.concat(parts), ext: fmt.ext, content_type: fmt.contentType, duration: seconds });
 }
@@ -473,10 +482,17 @@ route("POST", "/v1/text-to-dialogue/stream", async (req, res, p, q) => {
   let seconds = 0, gone = false;
   const listener = new AbortController();
   res.on("close", () => { if (!res.writableFinished) { gone = true; listener.abort(); } });
-  res.writeHead(200, { "content-type": d.fmt.contentType, "cache-control": "no-store", "x-accel-buffering": "no", "history-item-id": id, "request-id": id });
-  res.flushHeaders();
+  // As with speech: headers go out with the first audio, so an engine that fails before making any
+  // sound produces a real error instead of a dropped connection.
+  let started = false;
+  const start = () => {
+    if (started) return;
+    started = true;
+    res.writeHead(200, { "content-type": d.fmt.contentType, "cache-control": "no-store", "x-accel-buffering": "no", "history-item-id": id, "request-id": id });
+    res.flushHeaders();
+  };
   const stillThere = async () => { await new Promise(setImmediate); return !gone; };
-  const write = (buf) => { if (buf.length) { parts.push(buf); res.write(buf); } };
+  const write = (buf) => { if (buf.length) { start(); parts.push(buf); res.write(buf); } };
   const send = (samples) => {
     if (!samples.length) return;
     seconds += samples.length / DIALOGUE_RATE;
@@ -500,6 +516,7 @@ route("POST", "/v1/text-to-dialogue/stream", async (req, res, p, q) => {
   }
   if (!(await stillThere())) return;
   if (mp3) write(mp3.end());
+  start();
   res.end();
   saveDialogue(d, { id, audio: Buffer.concat(parts), duration: seconds });
 });

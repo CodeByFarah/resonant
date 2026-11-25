@@ -258,14 +258,30 @@ function start() {
       const m = out.match(/READY (\d+)/);
       if (m) { status = "ready"; resolve(`http://127.0.0.1:${m[1]}`); }
     });
+    // Keep the worker's recent output: if it exits, its last lines say why.
+    let tail = [];
     proc.stderr.on("data", (d) => {
-      for (const line of String(d).split(/\r?\n/)) if (line.startsWith("[qwen]") || /Error|Traceback/.test(line)) console.log(line);
+      for (const line of String(d).split(/\r?\n/)) {
+        if (!line.trim()) continue;
+        tail = [...tail.slice(-29), line];
+        if (line.startsWith("[qwen]") || /Error|Traceback/.test(line)) console.log(line);
+      }
     });
+    // The line that names the problem (a Python exception, "No module named …", a fatal error),
+    // else the last line that isn't known start-up noise.
+    const why = () => {
+      const useful = tail.filter((l) => !/SoX|sox|path variables|If you do|FutureWarning|warnings\.warn|flash-attn|^\*+$/i.test(l));
+      return [...useful].reverse().find((l) => /(Error|Exception)\b|No module named|Fatal|denied|not found|out of memory/i.test(l)) || useful.pop() || "";
+    };
     const self = proc;
     proc.on("exit", (code, signal) => {
-      reject(httpError(503, `Qwen3-TTS worker exited (code ${code})`));
+      const reason = why();
+      reject(httpError(503, `The Qwen3 engine stopped (code ${code})${reason ? `: ${reason.trim().slice(0, 300)}` : ""}. Try again; if it keeps happening, restart Resonant, or check Settings → Models.`));
       // Only an exit we didn't ask for is worth reporting (stop() forgets the process first).
-      if (proc === self) { console.log(`[qwen] worker exited unexpectedly (code ${code}, signal ${signal})`); proc = null; ready = null; status = "idle"; }
+      if (proc === self) {
+        console.log(`[qwen] worker exited unexpectedly (code ${code}, signal ${signal})${reason ? `; last output:\n${tail.slice(-10).join("\n")}` : ""}`);
+        proc = null; ready = null; status = "idle";
+      }
     });
   });
   return ready;
