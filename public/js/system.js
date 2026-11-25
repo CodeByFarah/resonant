@@ -56,7 +56,7 @@ export function showSystemCheck() {
     title: "What this computer can run",
     wide: true,
     body: html`<p class="muted small" style="margin-top:0">Resonant runs everything on this computer. Here's how each part of the studio will work on it. You can see this again any time in Settings → This computer.</p><div data-sys></div>`,
-    foot: html`<button class="btn btn-primary" data-close>Got it</button>`,
+    foot: html`<a class="btn" href="/app/settings#models" data-link data-close>Choose models</a><button class="btn btn-primary" data-close>Got it</button>`,
     onMount: (m) => renderSystem($("[data-sys]", m), { measure: true }),
     onClose: done,
   });

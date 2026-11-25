@@ -13,11 +13,9 @@ import { fileURLToPath } from "node:url";
 import { httpError } from "../audio.mjs";
 import { getSetting, setSetting } from "../db.mjs";
 import { chunkText } from "./local.mjs";
+import { PYTHON, HF_HOME, HF_HUB, MODELS_DIR } from "../paths.mjs";
 
-const PYTHON = process.env.RESONANT_PYTHON
-  || path.join(os.homedir(), ".resonant", "venv", process.platform === "win32" ? "Scripts/python.exe" : "bin/python");
 const WORKER = path.join(path.dirname(fileURLToPath(import.meta.url)), "..", "..", "worker", "qwen_worker.py");
-const HF_HUB = path.join(process.env.HF_HOME || path.join(os.homedir(), ".cache", "huggingface"), "hub");
 const IDLE_MS = Number(process.env.RESONANT_QWEN_IDLE_MINUTES ?? 10) * 60_000;
 
 export const SIZES = ["0.6B", "1.7B"];
@@ -84,6 +82,7 @@ if (remote()) refreshRemote();
 // ---------- what's installed ----------
 // A model counts as installed only once a snapshot has its config and weights and no download is in flight.
 // (On Windows without symlink rights, a download can die after the weights but before config.json.)
+export const repoInstalled = (repo) => installed(repo);
 function installed(repo) {
   const dir = path.join(HF_HUB, `models--Qwen--${repo}`);
   try {
@@ -144,8 +143,7 @@ const SPEAKERS = [
 
 const localPython = () => fs.existsSync(PYTHON);
 export const pythonPath = () => PYTHON;
-const MODELS_DIR = process.env.RESONANT_MODELS_DIR || path.join(os.homedir(), ".resonant", "models");
-function pyPackage(name) {
+export function pyPackage(name) {
   const venv = path.dirname(path.dirname(PYTHON));
   if (fs.existsSync(path.join(venv, "Lib", "site-packages", name))) return true;
   try { return fs.readdirSync(path.join(venv, "lib")).some((d) => fs.existsSync(path.join(venv, "lib", d, "site-packages", name))); } catch { return false; }
@@ -251,7 +249,7 @@ function start() {
   localToken = crypto.randomBytes(24).toString("hex");
   ready = new Promise((resolve, reject) => {
     proc = spawn(PYTHON, [WORKER, "0"], {
-      env: { ...process.env, HF_HUB_OFFLINE: "1", QWEN_TTS_SIZE: size(), PYTHONIOENCODING: "utf-8", PYTHONUNBUFFERED: "1", RESONANT_WORKER_TOKEN: localToken },
+      env: { ...process.env, HF_HOME, RESONANT_MODELS_DIR: MODELS_DIR, HF_HUB_OFFLINE: "1", QWEN_TTS_SIZE: size(), PYTHONIOENCODING: "utf-8", PYTHONUNBUFFERED: "1", RESONANT_WORKER_TOKEN: localToken },
       windowsHide: true,
     });
     let out = "";

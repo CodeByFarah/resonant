@@ -11,6 +11,79 @@ import { dubbingList, dubbingEditor } from "./dubbing.js";
 import { MODELS as CREDIT_MODELS, LIBRARIES as CREDIT_LIBRARIES, LICENSE_URLS } from "./credits.js";
 import { renderSystem } from "./system.js";
 
+// Settings → Models: optional packs with Download / Remove and live progress. Returns a function
+// that stops polling (called when leaving Settings).
+function renderPacks(box) {
+  let timer = null, gone = false, useGpu = true;
+  const gb = (n) => (n == null ? "" : n >= 1 ? `${n.toFixed(1)} GB` : `${Math.round(n * 1024)} MB`);
+  const pct = (j) => (j?.total ? Math.min(100, Math.round((j.done / j.total) * 100)) : null);
+  async function draw() {
+    let s;
+    try { s = await api("/api/packs"); } catch (e) { box.innerHTML = String(html`<p class="small" style="color:var(--danger)">Couldn't check the models: ${e.message}</p>`); return; }
+    if (gone) return;
+    const j = s.job, running = j?.state === "running";
+    const eng = s.engine;
+    // While a download runs, only its progress changes: update that in place, so buttons the
+    // person is about to click aren't replaced under the pointer.
+    const shape = JSON.stringify([s.packs.map((p) => p.installed), eng, j?.pack, j?.state, s.remote]);
+    if (running && box.dataset.shape === shape) {
+      const row = $(`[data-pack="${j.pack}"] .pack-progress`, box);
+      if (row) {
+        row.querySelector(".small").textContent = `${j.step}${pct(j) != null ? ` · ${pct(j)}%` : "…"}`;
+        const bar = row.querySelector(".bar i");
+        bar.style.width = `${pct(j) ?? 100}%`;
+        bar.classList.toggle("indeterminate", pct(j) == null);
+        const det = row.querySelector(".pack-detail");
+        if (det) det.textContent = j.detail || "";
+        clearTimeout(timer);
+        timer = setTimeout(draw, 1000);
+        return;
+      }
+    }
+    box.dataset.shape = shape;
+    box.innerHTML = String(html`
+      ${s.remote ? html`<div class="notice">${icon("info")}<div>Resonant is using a GPU worker on another machine, so these models are installed there. Switch to This computer in Providers to install them here.</div></div>` : ""}
+      <div class="small subtle" style="margin:4px 0 8px">Python engine: ${eng.installed ? `installed (${eng.build === "cuda" ? "graphics-card build" : "processor build"})` : `installs with your first pack (about ${gb(eng.size_gb)})`}</div>
+      ${!eng.installed && eng.gpu_available ? html`<label class="row small" style="gap:8px;margin-bottom:8px"><input type="checkbox" data-gpu ${useGpu ? raw("checked") : ""}> Use my NVIDIA graphics card: much faster, about 2.5 GB more to download</label>` : ""}
+      <div class="credits">${s.packs.map((p) => {
+        const mine = j && j.pack === p.id;
+        const blockedBy = p.requires && !s.packs.find((x) => x.id === p.requires)?.installed ? s.packs.find((x) => x.id === p.requires)?.name : null;
+        return html`<div class="credit pack" data-pack="${p.id}">
+          <div class="credit-main">
+            <div class="credit-name">${p.name}</div>
+            <div class="small subtle">${p.description}</div>
+            <div class="small subtle" style="margin-top:4px">${[p.size_gb != null ? `About ${gb(p.size_gb)} to download` : "", `Best with ${p.ram_gb} GB of memory or more`, p.licence].filter(Boolean).join(". ")}.</div>
+            ${mine && running ? html`<div class="pack-progress"><div class="small">${j.step}${pct(j) != null ? ` · ${pct(j)}%` : "…"}</div>
+              <div class="bar"><i style="width:${pct(j) ?? 100}%" class="${pct(j) == null ? "indeterminate" : ""}"></i></div>
+              <div class="small subtle mono pack-detail">${j.detail || ""}</div></div>` : ""}
+            ${mine && j.state === "error" ? html`<div class="small credit-caution">Didn't finish: ${j.error}</div>` : ""}
+            ${mine && j.state === "cancelled" ? html`<div class="small subtle">Cancelled. Downloading again picks up where it stopped.</div>` : ""}
+          </div>
+          <div class="pack-actions">${p.installed
+            ? html`<span class="badge green">Installed</span>${p.removable && !running ? html`<button class="btn btn-sm" data-remove="${p.id}">Remove</button>` : ""}`
+            : mine && running ? html`<button class="btn btn-sm" data-cancel>Cancel</button>`
+            : html`<button class="btn btn-sm btn-primary" data-install="${p.id}" ${running || s.remote || blockedBy ? raw("disabled") : ""} title="${blockedBy ? `Install ${blockedBy} first` : ""}">${icon("download")} Download</button>`}</div>
+        </div>`;
+      })}</div>`);
+    const gpuBox = $("[data-gpu]", box);
+    if (gpuBox) gpuBox.onchange = () => { useGpu = gpuBox.checked; };
+    for (const b of box.querySelectorAll("[data-install]")) b.onclick = async () => {
+      try { await api(`/api/packs/${b.dataset.install}/install`, { method: "POST", json: { gpu: useGpu } }); draw(); } catch (e) { toastError(e); }
+    };
+    $("[data-cancel]", box)?.addEventListener("click", async () => { try { await api("/api/packs/cancel", { method: "POST" }); } catch (e) { toastError(e); } });
+    for (const b of box.querySelectorAll("[data-remove]")) b.onclick = async () => {
+      const p = s.packs.find((x) => x.id === b.dataset.remove);
+      if (!(await confirmDialog(`Remove ${p.name}?`, `This deletes its models (about ${gb(p.size_gb)}) from this computer. You can download them again any time.`, "Remove"))) return;
+      try { await api(`/api/packs/${p.id}`, { method: "DELETE" }); toast("Removed"); await refreshShell(); draw(); } catch (e) { toastError(e); }
+    };
+    clearTimeout(timer);
+    if (running) timer = setTimeout(draw, 1000);
+    else if (j?.state === "done" && !box.dataset.doneShown) { box.dataset.doneShown = String(j.finishedAt); toast(`${s.packs.find((x) => x.id === j.pack)?.name} installed`); refreshShell(); }
+  }
+  draw();
+  return () => { gone = true; clearTimeout(timer); };
+}
+
 // Settings → Connect AI apps: ready-to-paste MCP setup for this install (paths come from the server).
 async function renderMcp(box) {
   try {
@@ -713,7 +786,7 @@ const settingsPage = {
     const base = location.origin;
     const rw = s.qwen.remote; // GPU worker, when one is set up
     el.innerHTML = String(html`<div class="page-inner"><h1 class="h1">Settings</h1>
-      <div class="settings-grid"><nav class="settings-nav"><a href="#profile" data-link>Profile</a><a href="#defaults" data-link>Defaults</a><a href="#usage" data-link>Usage</a><a href="#providers" data-link>Providers</a><a href="#appearance" data-link>Appearance</a><a href="#api" data-link>API</a><a href="#ai-apps" data-link>AI apps</a><a href="#extension" data-link>Browser extension</a><a href="#data" data-link>Data</a><a href="#computer" data-link>This computer</a><a href="#about" data-link>About</a></nav>
+      <div class="settings-grid"><nav class="settings-nav"><a href="#profile" data-link>Profile</a><a href="#defaults" data-link>Defaults</a><a href="#usage" data-link>Usage</a><a href="#models" data-link>Models</a><a href="#providers" data-link>Providers</a><a href="#appearance" data-link>Appearance</a><a href="#api" data-link>API</a><a href="#ai-apps" data-link>AI apps</a><a href="#extension" data-link>Browser extension</a><a href="#data" data-link>Data</a><a href="#computer" data-link>This computer</a><a href="#about" data-link>About</a></nav>
       <div>
         <section class="card settings-section" id="profile"><h2 class="h2">Profile</h2><form class="rows" data-form="profile">
           <div class="field"><label for="st-name">Display name</label><input class="input" id="st-name" name="display_name" value="${s.display_name}" maxlength="80" placeholder="Your name"></div>
@@ -725,6 +798,9 @@ const settingsPage = {
         <section class="card settings-section" id="usage"><h2 class="h2">Usage</h2><p class="muted small">Characters generated this calendar month count toward the limit. Leave it empty for no limit.</p><form class="rows" data-form="usage">
           <div class="field"><label for="st-limit">Monthly character limit</label><input class="input" id="st-limit" name="character_limit" type="number" min="1" step="1" value="${s.character_limit ?? ""}" placeholder="Unlimited"></div>
           <button class="btn btn-primary" style="align-self:flex-start">Save</button></form></section>
+        <section class="card settings-section" id="models"><h2 class="h2">Models</h2>
+          <p class="muted small">The built-in voices and transcription are ready to go. These packs add more, and download straight into Resonant: no Python or terminal needed. You can remove a pack any time to free the space.</p>
+          <div data-packs><p class="small subtle">Checking what's installed…</p></div></section>
         <section class="card settings-section" id="providers"><h2 class="h2">Providers</h2>
           <div class="rows"><div class="row" style="gap:12px">${orb("local-kokoro")}<div style="flex:1"><div class="h3">Local engine</div><div class="small subtle">Kokoro 82M · Whisper Base · MusicGen Small. Runs on this machine and is always on.</div></div><span class="badge green">Active</span></div>
           <div class="row" style="gap:12px">${orb("qwen3-tts")}<div style="flex:1"><div class="h3">${s.qwen.model}</div><div class="small subtle">${s.qwen.available
@@ -800,6 +876,7 @@ const settingsPage = {
     api("/api/health").then((h) => { const v = $("[data-version]", el); if (v && h.version) v.textContent = h.version; }).catch(() => {});
     renderSystem($("[data-sys]", el));
     renderMcp($("[data-mcp]", el));
+    const stopPacks = renderPacks($("[data-packs]", el));
     $("[data-speed]", el).onclick = async (e) => {
       setLoading(e.currentTarget, true, "Timing…");
       try { await api("/api/system/speed", { method: "POST" }); await renderSystem($("[data-sys]", el)); toast("Speed test done"); }
@@ -863,6 +940,7 @@ const settingsPage = {
       if (!(await confirmDialog("Delete all history?", "Every generated audio file will be permanently deleted. This can't be undone.", "Delete everything"))) return;
       try { const r = await api("/api/data/clear-history", { method: "POST" }); toast(`Deleted ${r.deleted} items`); refreshUsage(); } catch (e) { toastError(e); }
     };
+    return stopPacks; // stop watching install progress when leaving Settings
   },
 };
 

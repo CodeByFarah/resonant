@@ -7,10 +7,11 @@
 // Models download on first use and unload after 10 idle minutes. Text is translated one sentence
 // at a time, with a length cap and a no-repeat rule, which stops M2M100 from looping.
 import { env, pipeline } from "@huggingface/transformers";
+import { MODELS_DIR } from "../paths.mjs";
 import path from "node:path";
 import os from "node:os";
 
-env.cacheDir = process.env.RESONANT_MODELS_DIR || path.join(os.homedir(), ".resonant", "models");
+env.cacheDir = MODELS_DIR;
 const IDLE_MS = 10 * 60_000;
 const MAX_LOADED = 3;
 

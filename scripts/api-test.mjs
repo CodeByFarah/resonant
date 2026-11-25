@@ -39,6 +39,17 @@ await step("security: websites can't drive the API; host names and paths are che
   assert.equal(await send("PATCH", "/api/settings", { host, origin: `${base.protocol}//${host}` }, "{}"), 200, "same-origin page");
   assert.equal(await send("PATCH", "/api/settings", { host, origin: "chrome-extension://abcdefghijklmnop" }, "{}"), 200, "browser extension");
 });
+await step("models: pack list, and clear refusals for bad requests", async () => {
+  const s = await jsonReq("/api/packs");
+  const ids = s.packs.map((p) => p.id);
+  for (const id of ["expressive", "expressive-hq", "design", "transcribe", "isolate", "changer"]) assert.ok(ids.includes(id), `pack ${id}`);
+  for (const p of s.packs) assert.ok(typeof p.installed === "boolean" && p.name && p.description.length > 20 && p.licence, p.id);
+  assert.equal(s.packs.find((p) => p.id === "expressive-hq").requires, "expressive");
+  assert.ok(typeof s.engine.installed === "boolean");
+  assert.equal((await req("/api/packs/nope/install", { method: "POST", headers: { "content-type": "application/json" }, body: "{}" })).status, 404);
+  assert.equal((await req("/api/packs/nope", { method: "DELETE" })).status, 404);
+  if (s.job?.state !== "running") assert.equal((await req("/api/packs/cancel", { method: "POST" })).status, 409);
+});
 await step("system check: hardware facts and a verdict per feature", async () => {
   const s = await jsonReq("/api/system");
   assert.ok(s.cpu.threads > 0 && s.memory.total_gb > 0, "cpu and memory");

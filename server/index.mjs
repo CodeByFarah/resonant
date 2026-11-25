@@ -14,6 +14,7 @@ import { registerStudio } from "./studio.mjs";
 import { registerDubbing } from "./dubbing.mjs";
 import { registerPronunciation, apply as pronounce } from "./pronunciation.mjs";
 import * as system from "./system.mjs";
+import * as packs from "./packs.mjs";
 import { parseTags, spokenLength, toElevenLabs } from "./tags.mjs";
 import { parseOutputFormat, encode, encodeMp3, encodeWav, mp3Writer, decodeToMono, concat, resample, silence, pcm16ToFloat, httpError } from "./audio.mjs";
 
@@ -815,6 +816,17 @@ route("GET", "/api/mcp-config", async (req, res) => {
   if (REQUIRED_KEY) env.RESONANT_API_KEY = "<your access key>";
   json(res, 200, { command: process.execPath, args: [script], env, desktop: Boolean(process.versions.electron), platform: process.platform, output_dir: path.join(os.homedir(), "Documents", "Resonant") });
 });
+
+// Settings → Models: optional packs installed from inside the app.
+const hasNvidia = async () => (await system.hardware({ python: qwen.pythonPath(), dataDir: db.DATA_DIR })).gpus.length > 0;
+route("GET", "/api/packs", async (req, res) => json(res, 200, await packs.status({ gpu: await hasNvidia() })));
+route("POST", "/api/packs/cancel", async (req, res) => json(res, 200, { job: packs.cancel() }));
+route("POST", "/api/packs/:id/install", async (req, res, p) => {
+  const body = await readJson(req);
+  const gpu = "gpu" in body ? Boolean(body.gpu) && await hasNvidia() : await hasNvidia();
+  json(res, 202, { job: packs.install(p.id, { gpu }) });
+});
+route("DELETE", "/api/packs/:id", async (req, res, p) => json(res, 200, packs.remove(p.id)));
 
 // What this computer can run (first-run check and Settings → This computer).
 const qwenFacts = () => ({ available: qwen.available(), canDesign: qwen.canDesign(), size: qwen.size(), remote: qwen.remoteInfo() });

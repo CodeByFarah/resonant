@@ -4,9 +4,10 @@ import { KokoroTTS } from "kokoro-js";
 import path from "node:path";
 import os from "node:os";
 import { concat, silence, httpError } from "../audio.mjs";
+import { MODELS_DIR } from "../paths.mjs";
 
 // Short path: onnxruntime-node cannot open model files past Windows MAX_PATH.
-env.cacheDir = process.env.RESONANT_MODELS_DIR || path.join(os.homedir(), ".resonant", "models");
+env.cacheDir = MODELS_DIR;
 
 export const MODELS = {
   tts: { model_id: "kokoro_82m", name: "Kokoro 82M", repo: "onnx-community/Kokoro-82M-v1.0-ONNX", description: "Local, fast, natural English speech in 28 voices.", can_do_text_to_speech: true, languages: [{ language_id: "en", name: "English" }], max_characters_request_free_user: 20000 },

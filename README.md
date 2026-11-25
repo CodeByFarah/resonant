@@ -104,6 +104,23 @@ Reads web pages and selected text aloud with your Resonant voices, in Chrome and
 - **Server:** it connects to `http://localhost:3000` by default. Change the address (and add the API key, if you set one) under **Server** in the popup. Addresses other than this computer ask for permission first.
 - **Limits:** it reads up to 20,000 characters per page. Browser pages (`chrome://`, the web store) and PDFs can't be read by extensions; select the text instead. Firefox isn't supported, because it lacks the offscreen audio API this uses.
 
+### Settings → Models: optional packs, one click each
+
+The built-in voices and Whisper Base download by themselves the first time they're needed. Everything else comes as a pack you add from **Settings → Models**, with no Python or terminal: each pack shows what it adds, its download size and the memory it wants, then installs with a progress bar and can be cancelled (downloads resume where they stopped) or removed again.
+
+| Pack | Adds | Download |
+|---|---|---|
+| Expressive voices and cloning | Qwen3-TTS 0.6B: 9 voices with style instructions, 10 languages, cloning, the voice library, dubbing voices | ~5 GB |
+| Higher-quality expressive voices | Qwen3-TTS 1.7B (needs the pack above) | ~8.7 GB |
+| Voice design | Qwen3-TTS 1.7B VoiceDesign | ~4.5 GB |
+| Accurate transcription and speaker labels | Whisper Large v3 Turbo and the ECAPA speaker model | ~1.7 GB |
+| Voice isolation | Demucs (HTDemucs) | ~100 MB |
+| Voice changer | OpenVoice V2 | ~300 MB |
+
+The first pack also sets up a private Python engine in `~/.resonant` (about 0.4 GB, or about 2.8 GB with the CUDA build, which it picks when it finds an NVIDIA graphics card). It does this with [uv](https://docs.astral.sh/uv/), pinned to 0.12.23 and checked against its published checksum, which also fetches Python 3.12 itself. Python packages are installed at the exact versions in `worker/requirements-lock.txt`, the set the tests pass with. Models download from Hugging Face into the same places the manual setup below uses, so an existing setup shows as installed. On Windows PCs with Smart App Control, Windows may block a newly downloaded file the first time; clicking Download again carries on and usually works. `RESONANT_HOME` moves the engine and models elsewhere.
+
+The manual steps below do the same by hand, for developers and GPU workers.
+
 ### Qwen3-TTS (optional)
 
 Adds 9 voices (Vivian, Serena, Uncle Fu, Dylan, Eric, Ryan, Aiden, Ono Anna, Sohee) with natural-language **style instructions** ("whispering softly", "angry and intense"), **10 languages** (English, Chinese, Japanese, Korean, German, French, Russian, Portuguese, Spanish, Italian), **local voice cloning** from a 5–20 s sample, and **voice design**: a new voice from a written description (Tools → Voice Design). It runs in a Python worker (`worker/qwen_worker.py`). The worker starts on first use, keeps one model in memory at a time, and stops after 10 idle minutes. Models load from the Hugging Face cache (`~/.cache/huggingface/hub`) with `HF_HUB_OFFLINE=1`, so nothing is downloaded at runtime.

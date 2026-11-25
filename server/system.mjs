@@ -79,7 +79,7 @@ export function verdicts(hw, q, speed) {
     list.push({ id: "qwen", name: qwenName, level: "good", detail: `Runs on your GPU worker${q.remote.gpu ? ` (${q.remote.gpu})` : ""}.` });
   } else if (!q.available && !q.canDesign) {
     list.push({ id: "qwen", name: qwenName, level: "missing",
-      detail: `Not installed. They need the optional Python setup described in the README (about 5 to 10 GB).${ram < 16 ? " This computer has less than 16 GB of memory, so expect them to be slow or to run out of memory." : ""}` });
+      detail: `Not installed yet. Add them with one click in Settings → Models (about 5 GB for the standard pack).${ram < 8 ? " This computer has less than 8 GB of memory, so they may not run well here." : ram < 16 ? " With less than 16 GB of memory, stick to the standard pack rather than the higher-quality one." : ""}` });
   } else if (hw.torch?.cuda) {
     list.push({ id: "qwen", name: qwenName, level: "good", detail: `Runs on your graphics card${gpu ? ` (${gpu.name})` : ""}.` });
   } else {
