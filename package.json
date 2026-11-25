@@ -1,6 +1,6 @@
 {
   "name": "resonant",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A self-hosted voice studio: text to speech, voice cloning, dialogue, dubbing and transcription that run on your own computer.",
   "main": "server/index.mjs",
   "scripts": {
