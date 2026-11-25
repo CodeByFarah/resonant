@@ -42,6 +42,8 @@ export const LIBRARIES = [
   { name: "Mediabunny", by: "Vanilagy", license: "MPL-2.0", url: "https://github.com/Vanilagy/mediabunny",
     note: "MP4 export for dubs. Used unmodified." },
   { name: "PDF.js", by: "Mozilla", license: "Apache-2.0", url: "https://github.com/mozilla/pdf.js" },
+  { name: "MCP TypeScript SDK", by: "Anthropic and the Model Context Protocol contributors", license: "MIT", url: "https://github.com/modelcontextprotocol/typescript-sdk", note: "The server that lets AI apps use Resonant." },
+  { name: "Zod", by: "Colin McDonnell", license: "MIT", url: "https://github.com/colinhacks/zod" },
   { name: "wavefile", by: "Rafael da Silva Rocha", license: "MIT", url: "https://github.com/rochars/wavefile" },
   { name: "PyTorch", by: "PyTorch Foundation", license: "BSD-3-Clause", url: "https://github.com/pytorch/pytorch", note: "Optional Python worker." },
   { name: "qwen-tts", by: "the Alibaba Qwen team", license: "Apache-2.0", url: "https://github.com/QwenLM/Qwen3-TTS", note: "Optional Python worker." },

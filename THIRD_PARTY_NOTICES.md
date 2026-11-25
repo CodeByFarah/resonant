@@ -62,6 +62,8 @@ Sound effects. By Meta AI. Licence: [CC-BY-NC-4.0](https://creativecommons.org/l
   - mpg123: licence [LGPL-2.1](https://www.gnu.org/licenses/old-licenses/lgpl-2.1.html). Source code: <https://www.mpg123.de/>
 - **Mediabunny**, by Vanilagy. Licence: [MPL-2.0](https://www.mozilla.org/MPL/2.0/). Source: <https://github.com/Vanilagy/mediabunny>. MP4 export for dubs. Used unmodified.
 - **PDF.js**, by Mozilla. Licence: [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0). Source: <https://github.com/mozilla/pdf.js>
+- **MCP TypeScript SDK**, by Anthropic and the Model Context Protocol contributors. Licence: [MIT](https://opensource.org/license/mit). Source: <https://github.com/modelcontextprotocol/typescript-sdk>. The server that lets AI apps use Resonant.
+- **Zod**, by Colin McDonnell. Licence: [MIT](https://opensource.org/license/mit). Source: <https://github.com/colinhacks/zod>
 - **wavefile**, by Rafael da Silva Rocha. Licence: [MIT](https://opensource.org/license/mit). Source: <https://github.com/rochars/wavefile>
 - **PyTorch**, by PyTorch Foundation. Licence: [BSD-3-Clause](https://opensource.org/license/bsd-3-clause). Source: <https://github.com/pytorch/pytorch>. Optional Python worker.
 - **qwen-tts**, by the Alibaba Qwen team. Licence: [Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0). Source: <https://github.com/QwenLM/Qwen3-TTS>. Optional Python worker.
