@@ -1,6 +1,6 @@
 // Landing page: plays the recorded samples and lights up each word as the voice reaches it.
 // Set REPO to the public code address once it exists; until then the install step shows plain text.
-const REPO = "";
+const REPO = "https://github.com/CodeByFarah/resonant";
 
 const SAMPLES = window.SAMPLES || [];
 const byId = Object.fromEntries(SAMPLES.map((s) => [s.id, s]));

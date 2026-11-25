@@ -11,9 +11,18 @@
     "mcp": "node mcp/server.mjs",
     "test:mcp": "node scripts/mcp-test.mjs"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "text-to-speech",
+    "tts",
+    "voice-cloning",
+    "speech-to-text",
+    "dubbing",
+    "elevenlabs",
+    "local-ai",
+    "mcp"
+  ],
+  "author": "Resonant contributors",
+  "license": "Apache-2.0",
   "type": "module",
   "dependencies": {
     "@breezystack/lamejs": "^1.2.7",
@@ -31,5 +40,13 @@
   },
   "engines": {
     "node": ">=22.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CodeByFarah/resonant.git"
+  },
+  "homepage": "https://codebyfarah.github.io/resonant/",
+  "bugs": {
+    "url": "https://github.com/CodeByFarah/resonant/issues"
   }
 }

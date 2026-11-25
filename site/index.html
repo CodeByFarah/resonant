@@ -26,6 +26,7 @@
         <a href="#listen">Listen</a>
         <a href="#features">Features</a>
         <a href="#hardware">Requirements</a>
+        <a href="https://github.com/CodeByFarah/resonant">GitHub</a>
         <a class="btn btn-small" href="#install">Install</a>
       </nav>
     </div>
@@ -147,7 +148,11 @@ curl http://localhost:3000/v1/text-to-speech/af_heart \
 
     <section class="wrap install" id="install" aria-labelledby="install-title">
       <h2 id="install-title">Install Resonant</h2>
-      <p class="section-lede">One-click installers for Windows, Mac and Linux are on the way. Until then, it takes four steps in a terminal.</p>
+      <p class="section-lede">On Windows, download the app and install it like any other program. On a Mac or Linux, or to run the code yourself, it takes four steps in a terminal.</p>
+      <div class="download">
+        <a class="btn" href="https://github.com/CodeByFarah/resonant/releases/latest">Download for Windows</a>
+        <p class="small-note">64-bit Windows 10 or 11, about 200 MB. The installer isn't code-signed yet, so Windows may ask you to confirm it (More info → Run anyway), and PCs with Smart App Control turned on block it. Running from source works everywhere.</p>
+      </div>
       <ol class="steps">
         <li><h3>Install Node.js</h3><p>Version 22.5 or later, from <a href="https://nodejs.org/">nodejs.org</a>.</p></li>
         <li><h3>Download Resonant</h3><p><a href="#" data-repo hidden>Get the code</a><span data-no-repo>Get the code</span> and open its folder in a terminal.</p></li>
@@ -167,6 +172,7 @@ npm start</code></pre></li>
 
   <footer class="wrap foot">
     <p><strong>Built on open models:</strong> Kokoro (Apache 2.0), Qwen3-TTS (Apache 2.0), Whisper (MIT), Demucs (MIT), M2M100 (MIT), Opus-MT translation models by Helsinki-NLP, University of Helsinki (CC BY 4.0), and MusicGen for sound effects (CC BY-NC 4.0, non-commercial use only).</p>
+    <p>Resonant is open source under the <a href="https://github.com/CodeByFarah/resonant/blob/main/LICENSE">Apache License 2.0</a>. <a href="https://github.com/CodeByFarah/resonant">Code on GitHub</a>.</p>
     <p>Resonant is an independent project and isn't affiliated with ElevenLabs. ElevenLabs is a trademark of its owner, mentioned only to describe API compatibility.</p>
   </footer>
 

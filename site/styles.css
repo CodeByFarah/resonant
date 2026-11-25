@@ -161,6 +161,9 @@ main > section.band { background: var(--foam-2); }
 .code .c { color: var(--code-dim); }
 .code-inline { padding: 14px 18px; margin-top: 8px; max-width: 320px; }
 
+.download { margin: 0 0 40px; }
+.small-note { color: var(--graphite); font-size: 0.875rem; margin-top: 12px; max-width: 70ch; }
+
 /* Install steps: a real sequence, so numbered */
 .steps { list-style: none; counter-reset: step; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
 .steps li { counter-increment: step; border-top: 1px solid var(--line); padding-top: 18px; }

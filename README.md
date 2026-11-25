@@ -1,6 +1,16 @@
 # Resonant
 
-A self-hosted AI voice studio modelled on the ElevenLabs web app: text to speech, speech to text, voice changer, sound effects, a voice library, history and settings. It runs real models on your machine. If you add your own ElevenLabs API key, it can also use ElevenLabs' cloud models.
+**A voice studio that runs on your own computer.** Text to speech, voice cloning and design, multi-speaker dialogue, video dubbing, audiobooks, transcription and sound effects, with open models running locally: free, private, and with no limit on how much you make.
+
+[Download for Windows](https://github.com/CodeByFarah/resonant/releases/latest) · [Website](https://codebyfarah.github.io/resonant/) · [Run it yourself](#run-it) · Apache-2.0
+
+- **Works offline** once the models are downloaded; your text and recordings never leave your computer.
+- **An ElevenLabs-compatible API**, so apps built for ElevenLabs can switch by changing one address.
+- **Works with AI apps** such as Claude and Cursor through [MCP](#connect-ai-apps-mcp).
+- **A browser extension** that reads web pages aloud with your voices.
+- **Optional cloud voices:** add your own ElevenLabs API key to use ElevenLabs' models alongside the local ones.
+
+Resonant is an independent project and isn't affiliated with ElevenLabs.
 
 ## Run it
 
@@ -334,3 +344,9 @@ Output formats: `mp3_<rate>_<kbps>`, `wav_<rate>` and `pcm_<rate>`.
 - **Not built:** multi-speaker dialogue inside a chapter, Conversational AI agents, Music, team workspaces, and billing. Each is a large product on its own.
 - **Single-user.** One optional access key, with no accounts or roles. Put it behind HTTPS (for example a reverse proxy) before exposing it beyond localhost.
 - **Memory:** with all three models loaded the server uses about 3.5 GB of RAM. MusicGen unloads after it has been idle.
+
+## Licence
+
+Resonant is released under the [Apache License 2.0](LICENSE). The models and libraries it uses keep their own licences, listed in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and in Settings → About. Two need attention if you build on Resonant: Kokoro's pronunciation step includes eSpeak NG (GPL-3.0-or-later), and the MusicGen weights behind Sound Effects are for non-commercial use only.
+
+Clone only voices you have permission to use.
