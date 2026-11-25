@@ -1,6 +1,7 @@
 // HTTP server: ElevenLabs-compatible REST API plus the web app's static files.
 import http from "node:http";
 import fs from "node:fs";
+import os from "node:os";
 import path from "node:path";
 import zlib from "node:zlib";
 import crypto from "node:crypto";
@@ -801,6 +802,19 @@ route("GET", "/api/health", async (req, res) => json(res, 200, {
   elevenlabs: el.enabled(),
   stats: db.historyStats(),
 }));
+
+// How to connect AI apps (Claude Desktop, Claude Code, Cursor) to Resonant's MCP server on this
+// install. Inside the desktop app there's no separate Node.js, so the app's own executable runs
+// the MCP server (ELECTRON_RUN_AS_NODE).
+route("GET", "/api/mcp-config", async (req, res) => {
+  const script = path.join(PUBLIC_DIR, "..", "mcp", "server.mjs");
+  const env = {};
+  if (process.versions.electron) env.ELECTRON_RUN_AS_NODE = "1";
+  const port = server.address()?.port;
+  if (HOST !== "127.0.0.1" || !(port >= 3000 && port <= 3005)) env.RESONANT_URL = `http://${HOST === "0.0.0.0" ? "127.0.0.1" : HOST}:${port}`;
+  if (REQUIRED_KEY) env.RESONANT_API_KEY = "<your access key>";
+  json(res, 200, { command: process.execPath, args: [script], env, desktop: Boolean(process.versions.electron), platform: process.platform, output_dir: path.join(os.homedir(), "Documents", "Resonant") });
+});
 
 // What this computer can run (first-run check and Settings → This computer).
 const qwenFacts = () => ({ available: qwen.available(), canDesign: qwen.canDesign(), size: qwen.size(), remote: qwen.remoteInfo() });

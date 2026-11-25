@@ -11,6 +11,35 @@ import { dubbingList, dubbingEditor } from "./dubbing.js";
 import { MODELS as CREDIT_MODELS, LIBRARIES as CREDIT_LIBRARIES, LICENSE_URLS } from "./credits.js";
 import { renderSystem } from "./system.js";
 
+// Settings → Connect AI apps: ready-to-paste MCP setup for this install (paths come from the server).
+async function renderMcp(box) {
+  try {
+    const c = await api("/api/mcp-config");
+    const entry = { command: c.command, args: c.args, ...(Object.keys(c.env).length ? { env: c.env } : {}) };
+    const desktopJson = JSON.stringify({ mcpServers: { resonant: entry } }, null, 2);
+    const q = (s) => (/[\s"]/.test(s) ? `"${s.replace(/"/g, '\\"')}"` : s);
+    const claudeCode = ["claude mcp add resonant", ...Object.entries(c.env).map(([k, v]) => `-e ${k}=${q(v)}`), "--", q(c.command), ...c.args.map(q)].join(" ");
+    const configPath = c.platform === "win32" ? "%APPDATA%\\Claude\\claude_desktop_config.json" : c.platform === "darwin" ? "~/Library/Application Support/Claude/claude_desktop_config.json" : "~/.config/Claude/claude_desktop_config.json";
+    box.innerHTML = String(html`
+      <h3 class="h3 mt">Claude Desktop</h3>
+      <p class="small subtle">In Claude, open Settings → Developer → Edit Config, add this to <span class="mono">${configPath}</span> (merge it with any servers already there), save, and restart Claude.</p>
+      <div class="code" data-mcp-json>${desktopJson}</div>
+      <div class="row wrap mt"><button class="btn btn-sm" data-copy="mcp-json">${icon("copy")} Copy</button></div>
+      <h3 class="h3 mt">Claude Code</h3>
+      <p class="small subtle">Run this once in a terminal.</p>
+      <div class="code" data-mcp-cli>${claudeCode}</div>
+      <div class="row wrap mt"><button class="btn btn-sm" data-copy="mcp-cli">${icon("copy")} Copy</button></div>
+      <h3 class="h3 mt">Cursor and other apps</h3>
+      <p class="small subtle">Add the same <span class="mono">resonant</span> entry to the app's MCP settings (in Cursor: Settings → MCP). Audio they make is saved to <span class="mono">${c.output_dir}</span>.</p>
+      <p class="small subtle">Try asking: "Read this paragraph aloud in George's voice", "Turn these notes into a two-person podcast", or "Transcribe interview.mp3 and label the speakers".</p>`);
+    for (const b of box.querySelectorAll("[data-copy]")) b.onclick = async () => {
+      try { await navigator.clipboard.writeText($(`[data-${b.dataset.copy}]`, box).textContent); toast("Copied"); } catch { toast("Couldn't access the clipboard.", "error"); }
+    };
+  } catch (e) {
+    box.innerHTML = String(html`<p class="small" style="color:var(--danger)">Couldn't load the setup: ${e.message}</p>`);
+  }
+}
+
 // Title case, so multi-word labels read "New York", "South African".
 export const cap = (s) => (s ? s.replace(/(^|[\s(-])(\p{L})/gu, (m, sep, c) => sep + c.toUpperCase()) : "");
 // "Heart - Female, American", the way voices are named in pickers.
@@ -684,7 +713,7 @@ const settingsPage = {
     const base = location.origin;
     const rw = s.qwen.remote; // GPU worker, when one is set up
     el.innerHTML = String(html`<div class="page-inner"><h1 class="h1">Settings</h1>
-      <div class="settings-grid"><nav class="settings-nav"><a href="#profile" data-link>Profile</a><a href="#defaults" data-link>Defaults</a><a href="#usage" data-link>Usage</a><a href="#providers" data-link>Providers</a><a href="#appearance" data-link>Appearance</a><a href="#api" data-link>API</a><a href="#extension" data-link>Browser extension</a><a href="#data" data-link>Data</a><a href="#computer" data-link>This computer</a><a href="#about" data-link>About</a></nav>
+      <div class="settings-grid"><nav class="settings-nav"><a href="#profile" data-link>Profile</a><a href="#defaults" data-link>Defaults</a><a href="#usage" data-link>Usage</a><a href="#providers" data-link>Providers</a><a href="#appearance" data-link>Appearance</a><a href="#api" data-link>API</a><a href="#ai-apps" data-link>AI apps</a><a href="#extension" data-link>Browser extension</a><a href="#data" data-link>Data</a><a href="#computer" data-link>This computer</a><a href="#about" data-link>About</a></nav>
       <div>
         <section class="card settings-section" id="profile"><h2 class="h2">Profile</h2><form class="rows" data-form="profile">
           <div class="field"><label for="st-name">Display name</label><input class="input" id="st-name" name="display_name" value="${s.display_name}" maxlength="80" placeholder="Your name"></div>
@@ -736,6 +765,9 @@ const settingsPage = {
   -H "Content-Type: application/json" \\
   -d '{"text": "Hello from Resonant!"}' --output hello.mp3</div>
           <div class="row wrap mt"><button class="btn btn-sm" data-copy-curl>${icon("copy")} Copy</button><span class="small subtle">Endpoints: /v1/text-to-speech, /v1/speech-to-text, /v1/speech-to-speech, /v1/sound-generation, /v2/voices, /v1/history, /v1/models</span></div></section>
+        <section class="card settings-section" id="ai-apps"><h2 class="h2">Connect AI apps</h2>
+          <p class="muted small">Let Claude, Cursor and other AI apps use Resonant through MCP. Ask them to read text aloud, make a dialogue or podcast, transcribe a recording, or design a voice, and the work happens here on this computer. Resonant has to be open while they use it.</p>
+          <div data-mcp><p class="small subtle">Loading…</p></div></section>
         <section class="card settings-section" id="extension"><h2 class="h2">Browser extension</h2>
           <p class="muted small">Resonant Reader reads web pages and selected text aloud with your voices, in Chrome or Edge. It talks to this server, so nothing goes anywhere else, and readings appear in your history.</p>
           <ol class="steps small">
@@ -767,6 +799,7 @@ const settingsPage = {
       </div></div></div>`);
     api("/api/health").then((h) => { const v = $("[data-version]", el); if (v && h.version) v.textContent = h.version; }).catch(() => {});
     renderSystem($("[data-sys]", el));
+    renderMcp($("[data-mcp]", el));
     $("[data-speed]", el).onclick = async (e) => {
       setLoading(e.currentTarget, true, "Timing…");
       try { await api("/api/system/speed", { method: "POST" }); await renderSystem($("[data-sys]", el)); toast("Speed test done"); }

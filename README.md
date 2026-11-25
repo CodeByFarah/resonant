@@ -31,6 +31,31 @@ On first use, each local model is downloaded from Hugging Face into `~/.resonant
 
 All of the optional models run in one Python worker. On a CPU they're slow; on an NVIDIA GPU they're roughly 20–50× faster. See [GPU worker](#gpu-worker).
 
+### Connect AI apps (MCP)
+
+`mcp/server.mjs` is an [MCP](https://modelcontextprotocol.io) server, so Claude Desktop, Claude Code, Cursor and other MCP apps can use the Resonant running on your computer. You ask in plain words ("read this aloud in George's voice", "turn these notes into a two-person podcast", "transcribe interview.mp3 and label the speakers") and the AI uses these tools:
+
+| Tool | What it does |
+|---|---|
+| `resonant_status` | Version, which models are ready, what this computer can run, where files are saved |
+| `list_voices` | Voices with their IDs, filtered by name, language, gender, accent or provider |
+| `speak` | Text to speech, saved as MP3 or WAV; tags such as `[pause 2s]` work |
+| `create_dialogue` | Several speakers in one file |
+| `transcribe` | A WAV or MP3 file to text, optionally with timestamps and speaker labels |
+| `sound_effect` | A sound or ambience from a description |
+| `design_voice` | A new voice from a written description (needs Qwen3) |
+| `clone_voice` | A voice from recordings you have permission to use |
+
+Audio is saved to `Documents/Resonant` in your home folder (`RESONANT_OUTPUT_DIR` changes it), never overwriting a file, and also appears in History. Resonant has to be running; the MCP server finds it on ports 3000 to 3005 (`RESONANT_URL` to point elsewhere, `RESONANT_API_KEY` if you set one).
+
+**Setup:** Settings → Connect AI apps shows the exact lines for your install, ready to copy. For Claude Desktop, add this to `claude_desktop_config.json` (Settings → Developer → Edit Config) and restart Claude:
+
+```json
+{ "mcpServers": { "resonant": { "command": "node", "args": ["/path/to/resonant/mcp/server.mjs"] } } }
+```
+
+For Claude Code: `claude mcp add resonant -- node /path/to/resonant/mcp/server.mjs`. The desktop app needs no Node.js: Settings shows a setup that runs the MCP server with the app's own executable. `npm run test:mcp` checks the server end to end against a running Resonant.
+
 ### Desktop app
 
 `desktop/` wraps the same studio in its own window, for people who'd rather install an app than run a server. It is a thin Electron shell: it starts `server/index.mjs` with Electron's built-in Node (no separate Node.js install), waits until it's listening, and shows it. Everything else is the code above, so the web version and the desktop app never drift apart.
