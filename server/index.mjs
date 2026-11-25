@@ -851,7 +851,15 @@ registerDubbing({ route, readJson, readForm, formFile, json, findVoice, speakPar
 // ---------- auth, static, dispatch ----------
 const SESSION_COOKIE = "resonant_session";
 const sha = (s) => crypto.createHash("sha256").update(String(s)).digest();
-const sessionToken = REQUIRED_KEY ? sha("session:" + REQUIRED_KEY).toString("hex") : "";
+// The login cookie is an HMAC of the key with a random secret kept in this install's data folder,
+// so someone who sees a cookie can't test guesses of the key offline. Changing the key, or deleting
+// the secret, signs everyone out.
+function sessionSecret() {
+  let s = db.getSetting("session_secret", null);
+  if (!s) { s = crypto.randomBytes(32).toString("hex"); db.setSetting("session_secret", s); }
+  return s;
+}
+const sessionToken = REQUIRED_KEY ? crypto.createHmac("sha256", sessionSecret()).update("session:" + REQUIRED_KEY).digest("hex") : "";
 function authorized(req) {
   if (!REQUIRED_KEY) return true;
   const header = req.headers["xi-api-key"];
