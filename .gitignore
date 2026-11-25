@@ -9,3 +9,5 @@ __pycache__/
 desktop/dist/
 # Local editor and preview settings
 .claude/
+# Netlify CLI state (site ID), local only
+.netlify/
