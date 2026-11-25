@@ -1,7 +1,7 @@
 {
   "name": "resonant-desktop",
   "productName": "Resonant",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "private": true,
   "description": "Resonant: a voice studio that runs on your own computer.",
   "author": "Resonant",
