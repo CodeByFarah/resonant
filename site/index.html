@@ -148,18 +148,28 @@ curl http://localhost:3000/v1/text-to-speech/af_heart \
 
     <section class="wrap install" id="install" aria-labelledby="install-title">
       <h2 id="install-title">Install Resonant</h2>
-      <p class="section-lede">On Windows, download the app and install it like any other program. On a Mac or Linux, or to run the code yourself, it takes four steps in a terminal.</p>
+      <p class="section-lede">Download the installer, open it, and Resonant is ready. Everything runs on your own computer.</p>
       <div class="download">
-        <a class="btn" href="https://github.com/CodeByFarah/resonant/releases/latest">Download for Windows</a>
-        <p class="small-note">64-bit Windows 10 or 11, about 200 MB. The installer isn't code-signed yet, so Windows may ask you to confirm it (More info → Run anyway), and PCs with Smart App Control turned on block it. Running from source works everywhere.</p>
+        <a class="btn" href="https://github.com/CodeByFarah/resonant/releases/download/v1.0.1/Resonant-Setup-1.0.1.exe" data-download>Download for Windows</a>
+        <span class="small-note" data-download-meta>Version 1.0.1, 206 MB. Windows 10 or 11, 64-bit.</span>
       </div>
       <ol class="steps">
-        <li><h3>Install Node.js</h3><p>Version 22.5 or later, from <a href="https://nodejs.org/">nodejs.org</a>.</p></li>
-        <li><h3>Download Resonant</h3><p><a href="#" data-repo hidden>Get the code</a><span data-no-repo>Get the code</span> and open its folder in a terminal.</p></li>
-        <li><h3>Install and start it</h3><pre class="code code-inline"><code>npm install
-npm start</code></pre></li>
-        <li><h3>Open the studio</h3><p>Go to <a href="http://127.0.0.1:3000">127.0.0.1:3000</a> in your browser. Each model downloads the first time you use it.</p></li>
+        <li><h3>Download</h3><p>Click the button. Your browser saves <span class="file" data-download-name>Resonant-Setup-1.0.1.exe</span> to your Downloads folder.</p></li>
+        <li><h3>Open it</h3><p>Open the file from your browser's downloads. If Windows says "Windows protected your PC", click More info, then Run anyway.</p></li>
+        <li><h3>Install</h3><p>Choose where it goes and click Install. No administrator rights needed. Resonant opens when it's done.</p></li>
+        <li><h3>Add voices</h3><p>The built-in voices download by themselves the first time (about 330 MB). For expressive voices, cloning and more, open Settings, then Models.</p></li>
       </ol>
+      <p class="small-note">The installer isn't code-signed yet, which is why Windows asks you to confirm it. PCs with Smart App Control turned on block unsigned apps entirely; on those, run Resonant from the code instead (below).</p>
+      <details class="other-ways">
+        <summary>Mac, Linux, or run it from the code</summary>
+        <ol class="steps">
+          <li><h3>Install Node.js</h3><p>Version 22.5 or later, from <a href="https://nodejs.org/">nodejs.org</a>.</p></li>
+          <li><h3>Get the code</h3><p><a href="#" data-repo hidden>Download it from GitHub</a><span data-no-repo>Download it from GitHub</span> and open its folder in a terminal.</p></li>
+          <li><h3>Install and start it</h3><pre class="code code-inline"><code>npm install
+npm start</code></pre></li>
+          <li><h3>Open the studio</h3><p>Go to <a href="http://127.0.0.1:3000">127.0.0.1:3000</a> in your browser.</p></li>
+        </ol>
+      </details>
     </section>
 
     <section class="band" aria-labelledby="ethics-title">

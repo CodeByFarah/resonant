@@ -198,6 +198,23 @@ const header = document.querySelector(".top");
 const onScroll = () => header.classList.toggle("scrolled", scrollY > 8);
 addEventListener("scroll", onScroll, { passive: true });
 onScroll();
+// The Download button links straight to the installer file, so one click starts the download.
+// The page then asks GitHub for the newest release, so it never needs editing for a new version.
+(async () => {
+  try {
+    const r = await fetch("https://api.github.com/repos/CodeByFarah/resonant/releases/latest", { headers: { accept: "application/vnd.github+json" } });
+    if (!r.ok) return;
+    const rel = await r.json();
+    const exe = rel.assets?.find((a) => /^Resonant-Setup-.*\.exe$/.test(a.name));
+    if (!exe) return;
+    const version = rel.tag_name.replace(/^v/, "");
+    const mb = Math.round(exe.size / 1048576);
+    for (const a of document.querySelectorAll("[data-download]")) a.href = exe.browser_download_url;
+    for (const s of document.querySelectorAll("[data-download-meta]")) s.textContent = `Version ${version}, ${mb} MB. Windows 10 or 11, 64-bit.`;
+    for (const s of document.querySelectorAll("[data-download-name]")) s.textContent = exe.name;
+  } catch {}
+})();
+
 if (REPO) {
   for (const a of document.querySelectorAll("[data-repo]")) { a.href = REPO; a.hidden = false; }
   for (const s of document.querySelectorAll("[data-no-repo]")) s.hidden = true;

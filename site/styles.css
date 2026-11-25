@@ -161,8 +161,14 @@ main > section.band { background: var(--foam-2); }
 .code .c { color: var(--code-dim); }
 .code-inline { padding: 14px 18px; margin-top: 8px; max-width: 320px; }
 
-.download { margin: 0 0 40px; }
-.small-note { color: var(--graphite); font-size: 0.875rem; margin-top: 12px; max-width: 70ch; }
+.download { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 20px; margin: 0 0 40px; }
+.download .btn { font-size: 1.0625rem; padding: 14px 26px; }
+.download .small-note { margin: 0; }
+.small-note { color: var(--graphite); font-size: 0.875rem; margin-top: 24px; max-width: 70ch; }
+.file { font-family: var(--mono); font-size: 0.9em; }
+.other-ways { margin-top: 32px; border-top: 1px solid var(--line); padding-top: 20px; }
+.other-ways summary { cursor: pointer; font: 700 1.0625rem/1.4 var(--display); }
+.other-ways[open] summary { margin-bottom: 20px; }
 
 /* Install steps: a real sequence, so numbered */
 .steps { list-style: none; counter-reset: step; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: clamp(20px, 3vw, 40px); }
